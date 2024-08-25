@@ -1,0 +1,23 @@
+package view
+
+import(
+    "main/internal/model"
+)
+
+script Redirect(url string) {
+    location.replace(url)
+}
+
+templ PostsDetails(News model.Posts) {
+    if News.Url != "" { 
+        @Redirect(News.Url)
+    }
+    
+    <p class="w-full mb-[2vh]">
+        <span class="text-3xl font-nino font-bold text-black"> { News.Title } </span>
+    </p>
+    
+    <p class="w-full font-arial">
+        @templ.Raw(News.Body)
+    </p>
+}

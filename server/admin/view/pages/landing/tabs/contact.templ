@@ -1,0 +1,50 @@
+package tabs
+
+import "main/pkg/helpers"
+import "main/server/admin/view/shared"
+
+import(
+    "main/internal/model"
+)
+
+templ Contact(Contact model.Interface_contact) {
+    <form   class="w-full px-3 rounded-[8px] flex flex-col gap-10"
+            x-data={"{ Contact: " + helpers.ToJson(Contact) + " }"}
+                hx-post="/admin/settings/contacts"
+                hx-swap="outerHTML"
+                hx-trigger="submit"
+                hx-ext='json-enc'>
+            <p class="w-full font-semibold text-primary font-arial text-xl">საკონტაქტო</p>
+
+            <div class="w-[100%] flex flex-col gap-[7vh]">
+                <div x-data='{ value: Contact.Email }' class="flex flex-col gap-2 w-[100%]">
+                    @shared.Input("update-email", "ელფოსტა")
+                    <input class="hidden" name="email" :value='value' />
+                </div>
+
+                <div x-data='{ value: Contact.Phone }' class="flex flex-col gap-2 w-[100%]">
+                    @shared.Input("update-phone", "მობილური")
+                    <input class="hidden" name="phone" :value='value' />
+                </div>
+
+                <div x-data='{ value: Contact.Location }' class="flex flex-col gap-2 w-[100%]">
+                    @shared.Input("update-location", "მისამართი")
+                    <input class="hidden" name="location" :value='value' />
+                </div>
+
+                <div x-data='{ value: Contact.LocationLink }' class="flex flex-col gap-2 w-[100%]">
+                    @shared.Input("update-locationLink", "მისამართის ლინკი")
+                    <input class="hidden" name="locationLink" :value='value' />
+                </div>
+
+                <div x-data='{ value: Contact.LocationIframe }' >
+                    @shared.Input("update-locationIframe", "მისამართის აიფრეიმი")
+                    <input class="hidden" name="locationIframe" :value='value' />
+                </div>
+                
+                <div class="flex flex-col gap-2 w-[100%]">
+                    <button type="submit" class="bg-primary text-white rounded-[8px] px-3 py-2">შენახვა</button>
+                </div>
+            </div>
+        </form>
+}

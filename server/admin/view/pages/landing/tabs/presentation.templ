@@ -1,0 +1,32 @@
+package tabs
+
+script PresentationCke(PresentationContent string) {
+    console.log("hi")
+
+    const Te = ClassicEditor.create(
+        document.querySelector( '#presentationEditor' ), 
+        window.ckeConfig
+    ).then(editor => {
+        editor.setData(PresentationContent)
+        editor.model.document.on( 'change:data', () => editor.sourceElement.value = editor.getData())
+    }).catch(e => console.log("ckeditor ->", e))
+}
+
+templ Presentation(PresentationContent string) {
+    <form class="w-[100%] px-3 rounded-[8px] flex flex-col gap-5 flex-grow-1"
+            hx-post="/admin/settings/presentation" 
+            hx-swap="outerHTML show:window:top" 
+            hx-trigger="submit"s>
+
+        <p class="w-full font-bold font-arial text-xl text-black">პრეზენტაცია</p>
+
+        <div class="w-full min-h-[30vh] overflow-scroll no-scrollbar">
+            <input class="w-full h-full hidden" name="content" id="presentationEditor" value={PresentationContent} />
+        </div>
+
+        <div class="flex flex-col gap-2 w-[100%]">
+            <button type="submit" class="bg-primary text-white rounded-[8px] px-3 py-2">შენახვა</button>
+        </div>
+        @PresentationCke(PresentationContent)
+    </form>
+}

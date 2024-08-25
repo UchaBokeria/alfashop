@@ -1,0 +1,24 @@
+package view
+
+import(
+    "strconv"
+    "main/internal/model"
+)
+
+templ ProductLayout(Category model.Categories, Categories []model.Categories) {
+    <div class="w-full flex flex-col gap-2">
+        <p class="w-full">
+            <span class="text-3xl font-nino font-bold text-primary">მოძებნე</span>
+            <span class="text-3xl font-nino font-bold text-primary"> პროდუქტი</span>
+        </p>
+
+        <div class="w-full relative">
+            @ProductFilters(Category, Categories)
+        </div>
+
+        <div class="w-full flex flex-wrap gap-6 gap-y-[4vh] py-[2vh] min-[1680px]:gap-[5rem]" id="ProductContent"
+             hx-get={"/products/list?" + "&page=1" + "&category=" + strconv.Itoa(int(Category.ID)) + "&searcher="}
+             hx-trigger="intersect once" hx-swap="innerHTML" hx-target="#ProductContent">
+        </div>
+    </div>
+}

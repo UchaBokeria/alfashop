@@ -1,0 +1,25 @@
+package view
+
+import(
+    "main/internal/model"
+)
+
+templ Inovation(Interface model.Interface) {
+    <div class="w-full mt-60 mob:!mt-10">
+        <h2 class="w-full p-0 font-nino font-semibold text-4xl text-primary text-center">ინოვაციები</h2>
+
+        <div class="py-10 flex flex-wrap gap-20 justify-center">
+            for _, Inovation := range Interface.Inovations {
+
+                <div class="relative group skew-x-[-13deg] mob:!skew-x-0 overflow-hidden shadow-md hover:saturate-50 hover:scale-105 transition-all ease-in-out duration-500 cursor-pointer h-[400px] w-[281px] bg-primary">
+                    <div class="relative z-10 h-[20%] bg-gradient-center font-bold font-poppins text-white text-2xl flex items-center justify-center"> 
+                        <p class="skew-x-[13deg] mob:!skew-x-0  p-5 text-center">{ Inovation.Title } </p>
+                    </div>
+
+                    <img src={ Inovation.Pic.Path } class="skew-x-[13deg] mob:!skew-x-0 absolute z-0 h-[80%] scale-x-125 group-hover:scale-150 group-hover:-translate-y-20 group-hover:-translate-x-10  duration-[1500ms] transition-all" alt="Inovation" />
+                </div>
+
+            }
+        </div>
+    </div>
+}

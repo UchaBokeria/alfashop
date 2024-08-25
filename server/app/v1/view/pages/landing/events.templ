@@ -1,0 +1,46 @@
+package view
+
+import(
+    "main/internal/icons"
+    "main/pkg/helpers"
+    "main/internal/model"
+)
+
+templ Events(Interface model.Interface) {
+    <div class="w-[100vw] py-5 ml-[-200px] bg-[#D7E3F4] relative mob:!ml-[-50px]">
+        <h2 class="w-full p-10 font-nino font-semibold text-4xl text-primary text-center">ივენთები</h2>
+        
+        <div class="w-full h-[40vh] mob:!h-auto relative flex items-start" x-data='{scrollPosition: 0, indicator: 1000}'>
+
+            <button class="h-[25vh] w-[3vw] top-[0] opacity-40 transition-opacity duration-500 hover:opacity-100 bg-[#D7E3F4] flex justify-center items-center text-4xl absolute z-40 left-0 mob:hidden"
+                    @click='$refs.EventsCarousel.scrollLeft -= indicator'>
+                @icons.LeftButton()
+            </button>
+            
+            <button class="h-[25vh] w-[3vw] top-[0] opacity-40 transition-opacity duration-500 hover:opacity-100 bg-[#D7E3F4] flex justify-center items-center text-4xl absolute z-40 right-4 rotate-180 mob:hidden"
+                    @click='$refs.EventsCarousel.scrollLeft +=  indicator'>
+                @icons.LeftButton()
+            </button>
+
+            <div class="w-full pb-20 pl-[130px] pr-[200px]  mob:!px-0 mob:!ml-[0] mob:!gap-x-[30px]  relative flex items-center gap-x-[150px] no-scrollbar overflow-hidden overflow-x-auto scroll-smooth"
+                 x-ref='EventsCarousel'>
+
+                for _, Event := range Interface.Events {
+                    <div class="cursor-pointer border rounded-sm w-[500px] mob:!w-[300px] mob:!h-auto mob:!skew-x-0 flex gap-5 shadow-md h-[25vh] p-0 flex-shrink-0 bg-white overflow-hidden hover:shadow-lg transition-all duration-500"
+                         hx-get={ "/posts/" + helpers.String(int(Event.ID)) } hx-swap="innerHTML show:window:top"
+                         hx-push-url={ "/posts/" + helpers.String(int(Event.ID)) } hx-target="#Content" hx-indicator=".Loading"
+                         >
+                        <img src={ Event.Thumbnail.Path } class="  w-[50%] object-cover" alt={Event.Title} />
+
+                        <div class="w-[50%]  flex flex-col gap-2 justify-start items-start overflow-hidden p-2">
+                            <p class="text-xs font-arial font-bold text-gray-500"> {Event.PublishedAt.Format("January 2, 2006")} </p>
+                            <h4 class="text-xl w-full text-primary font-semibold line-clamp-4"> {Event.Title} </h4>
+                            <h4 class="text-xs w-[90%] line-clamp-3 text-ellipsis font-arial text-gray-500"> @templ.Raw(Event.Body) </h4>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+}

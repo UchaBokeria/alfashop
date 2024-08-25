@@ -1,0 +1,24 @@
+package pages
+
+import(
+    "main/internal/model"
+    "main/server/app/v1/view"
+    "main/server/app/v1/view/shared"
+    "main/server/app/v1/view/widgets"
+)
+
+templ Layout(Interface model.Interface, Page templ.Component) {
+    @view.Index() {
+        @shared.Header(Interface)
+
+        <div id="Content" class="w-[100%] mt-[150px] flex-grow px-[200px] py-[40px] min-h-screen mob:px-[50px] relative mob:min-w-screen">
+            @Page
+        </div>
+
+        @shared.Loading()
+        @shared.Footer(Interface)
+
+        @widgets.Chat()
+        @widgets.BackTopTop()
+    }
+}

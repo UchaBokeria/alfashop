@@ -1,0 +1,42 @@
+package scripts
+
+script Auth(path string) {
+    htmx.on("htmx:configRequest", (e)=> {
+        try {
+            const CurrentUserCreds = JSON.parse(localStorage.getItem("USER"))
+            document.cookie = `user=${CurrentUserCreds.Email}; ${CurrentUserCreds.Expires}; path=/`;
+            document.cookie = `token=${CurrentUserCreds.Token}; ${CurrentUserCreds.Expires}; path=/`;
+            e.detail.headers["X-User"] = CurrentUserCreds.Email
+            e.detail.headers["X-Token"] = CurrentUserCreds.Token
+        } catch(error) {
+            e.detail.headers["X-User"] = null
+            e.detail.headers["X-Token"] = null
+            localStorage.removeItem("USER")
+        }
+    })
+    
+    document.body.addEventListener("htmx:afterRequest", function(evt) {
+        if (evt.detail.requestConfig.path === path[path.length-1] == "/" ? path.slice(0, path.length-1) : path ) {
+            const headers = Object.assign({}, ...evt.detail.xhr.getAllResponseHeaders().split('\n').map(lines => {
+                const parts = lines.split(': ')
+                return {[parts.shift()]: parts.join(': ')}
+            }))
+            localStorage.setItem("USER", headers["hx-auth-meta"])
+        }
+    })
+
+    try {
+        const CurrentUserCreds = JSON.parse(localStorage.getItem("USER"))
+        if(CurrentUserCreds.Email && CurrentUserCreds.Token) {
+            document.cookie = `user=${CurrentUserCreds.Email}; ${CurrentUserCreds.Expires}; path=/`;
+            document.cookie = `token=${CurrentUserCreds.Token}; ${CurrentUserCreds.Expires}; path=/`;
+            window.location.href = '/admin'
+        }
+    } catch(error) {
+        // return console.log(error)
+    }
+}
+
+templ auth_() {
+
+}

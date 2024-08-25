@@ -1,0 +1,85 @@
+package view
+
+import(
+    "main/pkg/view/ui"
+    "main/internal/model"
+)
+
+var mapUrl string = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5010.052328334119!2d44.863821367343206!3d41.699044984963244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40440d96fddef847%3A0xb243526aef974d8!2sAlfa%20Motors!5e0!3m2!1sen!2sge!4v1714675951710!5m2!1sen!2sge"
+
+script ChangeMap(url string) {
+    document.querySelector("#branchMap").src = url
+}
+
+script BranchesFilters() {
+    const params = new URLSearchParams(window.location.search);
+    let BranchesCityFilter = document.querySelector("#branch-city-filter")
+    let BranchesDistrictFilter = document.querySelector("#branch-district-filter")
+
+    BranchesCityFilter.onchange = e => {
+        let path = location.pathname + "?citie=" + e.target.value + "&district=" + (params.get("district") || "")
+        htmx.ajax('GET', path, {target: '#BranchesFilter', swap: "outerHTML" })
+        history.pushState("", "", path)
+    }
+
+    BranchesDistrictFilter.onchange = e => {
+        let path = location.pathname + "?citie=" + (params.get("citie") || "") + "&district=" + e.target.value
+        htmx.ajax('GET', path, {target: '#BranchesFilter', swap: "outerHTML" })
+        history.pushState("", "", path)
+    }
+}
+
+templ Branches(Branches []model.Branches, Cities []model.Cities, Districts []model.Districts, Citie string, CitieID string, District string, DistrictID string) {
+    <div class="w-full" id="BranchesFilter">
+        <p class="w-full">
+            <span class="text-3xl font-nino font-bold text-primary">ფილიალები</span>
+            <span class="text-3xl font-nino font-bold text-primary"> </span>
+        </p>
+
+        <div class="w-full flex flex-col justify-between gap-[40px] mt-[3vh]">
+            <iframe id="branchMap" src={mapUrl} width="100%" height="450" style="border:0; outline:0;"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            
+            <div class=" flex flex-wrap gap-5">
+                <input  class="hidden" id="branch-city-filter" name="CityID" id="branch-city-filter" value={CitieID} /> 
+                @ui.Select(ui.SelectConf{
+                    Color: "[#eee]",
+                    For: "branch-city-filter",
+                    Placeholder: Citie,
+                    Data: ui.SelectDataCustomFormatter(Cities, "Display_name", "ID"),
+                    Default: CitieID,
+                })
+
+                <input class="hidden" id="branch-district-filter" name="DistrictID" id="branch-district-filter" value={DistrictID} /> 
+                @ui.Select(ui.SelectConf{
+                    Color: "[#eee]",
+                    For: "branch-district-filter",
+                    Placeholder: District,
+                    Data: ui.SelectDataCustomFormatter(Districts, "Display_name", "ID"),
+                    Default: DistrictID,
+                })
+            </div>
+
+            <div class="pb-[100px] flex w-full flex-wrap items-center justify-start gap-[20px]">
+                for _, Branch := range Branches {
+                    <div class="shadower mb-1 relative cursor-pointer flex min-h-[114px] w-[330px] flex-shrink-0 flex-grow-0 items-start justify-start gap-[76px] rounded-[10px] bg-[#f5f5f5] px-[20px] py-5 mob:w-full mob:flex-col mob:gap-[0px] mob:min-h-[150px]"
+                        onclick={ChangeMap(Branch.Map)}>
+                        <div class="relative flex flex-shrink-0 flex-grow-0 flex-col items-start justify-start gap-[5px]">
+                            <p class="h-[50px] w-[61px] flex-shrink-0 flex-grow-0 text-left text-[13px] font-deja font-bold text-black"> { Branch.District.City.Display_name } </p>
+                            <p class="h-[15px] w-[69px] flex-shrink-0 flex-grow-0 text-left text-[13px] font-nino text-black"> { Branch.District.Display_name } </p>
+                        </div>
+
+                        <div class="relative flex flex-shrink-0 flex-grow-0 flex-col items-end justify-start gap-3 self-stretch">
+                            <p class="h-4 w-[111px] flex-shrink-0 flex-grow-0 text-left text-[13px] font-bold text-[#21569e] mob:w-full mob:mt-2"> { Branch.PhoneNumber } </p>
+                            for _, Shift := range Branch.Shifts {
+                                <p class="h-[17px] w-full flex-shrink-0 flex-grow-0 text-left text-[13px] text-black font-arial">
+                                    { Shift.Name }: { Shift.OpensAt.Format("15:04") } - { Shift.ClosesAt.Format("15:04") }
+                                </p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        @BranchesFilters()
+    </div>
+}

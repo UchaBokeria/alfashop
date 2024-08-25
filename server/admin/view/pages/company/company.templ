@@ -1,0 +1,78 @@
+package company
+
+import "main/pkg/helpers"
+
+import(
+    "main/internal/model"
+)
+
+templ Page(Companies []model.Company) {
+    <div class="w-full" x-data='{modal: { create: true, update: true }}'>
+        <h1 class="w-full text-3xl font-semibold font-nino">კომპანია</h1>
+        
+        <button @click="modal.create = true" type="button" 
+                hx-get={"/admin/company/create"}
+                hx-target="#createModal"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+                class="py-2.5  mt-5 transition-colors duration-1000 px-5 text-sm font-medium text-white inline-flex items-center bg-primary hover:bg-[#82aae2] focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">
+            <svg width="20px" height="20px" viewBox="0 -0.5 9 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus_mini [#1523]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-345.000000, -206.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="plus_mini-[#1523]" points="298 49 298 51 294.625 51 294.625 54 292.375 54 292.375 51 289 51 289 49 292.375 49 292.375 46 294.625 46 294.625 49"> </polygon> </g> </g> </g> </g></svg>
+            <p class="font-bold pl-5">დამატება</p>
+        </button>
+
+        <div class="w-[100vw] fixed top-0 left-0 z-40" x-show='modal.create'>
+            <div class="bg-black opacity-60 w-full h-full"></div>
+            <div id="createModal" class="absolute w-full"></div>
+        </div>
+
+
+        <div class="w-[100vw] fixed top-0 left-0 z-40" x-show='modal.update'>
+            <div class="bg-black opacity-60 w-full h-full"></div>
+            <div id="updateModal" class="absolute w-full"></div>
+        </div>
+
+        <div class="py-10">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">სახელი</th>
+                            <th scope="col" class="px-6 py-3">URL</th>
+                            <th scope="col" class="px-6 py-3"> </th>
+                            <th scope="col" class="px-6 py-3"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        for _, item := range Companies {
+                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {item.Name} </th>
+                                <td class="px-6 py-4"> {item.Path} </td>
+
+                                <td class="px-6 py-4">
+                                    <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
+                                        @click="modal.update = true"
+                                        hx-get={"/admin/company/" + helpers.String(int(item.ID))}
+                                        hx-target="#updateModal" 
+                                        hx-swap="innerHTML"
+                                        hx-trigger="click">
+                                        გახსნა
+                                    </a>
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    <a class="font-medium text-red-500 dark:text-red-500 hover:underline cursor-pointer"
+                                        hx-delete={"/admin/company/" + helpers.String(int(item.ID))}
+                                        hx-target="#AdminContent" 
+                                        hx-swap="innerHTML"
+                                        hx-trigger="click">
+                                        წაშლა
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

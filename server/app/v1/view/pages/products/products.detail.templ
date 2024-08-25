@@ -1,0 +1,68 @@
+package view
+
+import "main/pkg/helpers"
+
+import(
+    "main/internal/model"
+)
+
+templ ProductDetail(Product model.Products) {
+    <div class="w-full flex flex-wrap ">
+
+        <div class="w-full text-center pb-10">
+            <h2 class="w-full text-4xl font-bold text-primary"> {Product.Name} </h2>
+        </div>
+
+        <div class="w-[340px] p-5 grow-0 shrink-1 flex flex-col gap-10  overflow-hidden" x-data='{selected: 0}'>
+            <div class="w-full h-[450px]">
+                <div class="w-full flex justify-center items-center relative">
+                    for index, Pic := range Product.Pics {
+                        <img src={Pic.Path} alt={Product.Name} class="w-full object-fit absolute top-0"
+                             x-show={"selected == " + helpers.String(index)} />
+                    }
+                </div>
+            </div>
+
+            <div class="w-full flex flex-wrap gap-5">
+                for index, Pic := range Product.Pics {
+                    <p  class="cursor-pointer text-primary"
+                        @click={"selected = " + helpers.String(index)}> {Pic.Original} </p>
+                }
+            </div>
+        </div>
+
+        <div class="w-[calc(100%-350px)] px-10 flex-grow flex-shrink "> @templ.Raw(Product.DescriptionHtml) </div>
+
+        <div class="w-full py-10  mob:!overflow-x-auto">
+            <table class="w-full p-5">
+                <thead class="bg-gradient">
+                    <tr class="text-white">
+                        <td class="p-3">მახასიათებლები</td>
+                        <td class="p-3">ერთეული</td>
+                        <td class="p-3">მონაცემი</td>
+                        <td class="p-3">გამოცდის შემდეგ</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    for _, Propertie := range Product.Properties {
+                        <tr>
+                            <td class="p-3"> { Propertie.Characteristics } </td>
+                            <td class="p-3"> { Propertie.Unit } </td>
+                            <td class="p-3"> { Propertie.Data } </td>
+                            <td class="p-3"> { Propertie.Examination } </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            
+            <p class="w-full py-8 text-end text-xm text-primary font-semibold">
+                ყველა მოცემული მონაცემი არის მიახლოებითი მნიშვნელობები და ექვემდებარება ჩვეულებრივ რყევებს
+            </p>
+
+            <div class="w-[10vw] p-4 cursor-pointer text-white bg-gradient skew-x-[-16deg] shadow-md hover:shadow-xl transition-shadow mob:!w-full">
+                <p class="w-full flex justify-center">PDF ჩამოტვირთვა</p>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,12 @@
+package scripts
+
+script Call(phoneNumber string) {
+    if(/Mobi|Android/i.test(navigator.userAgent)) 
+        return window.location.href= `tel:${phoneNumber}`
+    CopyToClipboard(phoneNumber)
+}
+
+
+templ call_() {
+
+}

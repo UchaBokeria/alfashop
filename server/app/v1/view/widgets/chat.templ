@@ -1,0 +1,170 @@
+package widgets
+
+import "main/internal/icons"
+
+templ NewMessage(fullname string, message string) {
+    <div class="my-4 flex flex-1 gap-3 text-sm text-gray-600">
+        <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
+            <div class="rounded-full border bg-gray-100 p-1">
+                <svg stroke="none" fill="black" stroke-width="0" viewBox="0 0 16 16" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"></path>
+                </svg>
+            </div>
+        </span>
+        <div class="leading-relaxed flex flex-col">
+            <p class="block font-bold text-gray-700"> {fullname} </p>
+            <p>{message}</p>
+        </div>
+    </div>
+
+    <!-- Ai Chat Message  -->
+    <div class="my-4 flex flex-1 gap-3 text-sm text-gray-600">
+        @icons.OperatorIcon()
+        <p class="leading-relaxed"><span class="block font-bold text-gray-700">Ravenol </span>
+            ამ წუთას სამწუხაროდ ყველა ოპერატორი დაკავებულია. გთხოვთ პასუხს დაელოდოთ თქვენს მიერ მითითებულ ელფოსტაზე
+        </p>
+    </div>
+}
+
+templ NewMessageError(fullname string, message string) {
+    <div class="my-4 flex flex-1 gap-3 text-sm text-gray-600">
+        <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
+            <div class="rounded-full border bg-gray-100 p-1">
+                <svg stroke="none" fill="black" stroke-width="0" viewBox="0 0 16 16" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"></path>
+                </svg>
+            </div>
+        </span>
+        <div class="leading-relaxed flex flex-col">
+            <p class="block font-bold text-gray-700"> {fullname} </p>
+            <p>{message}</p>
+        </div>
+    </div>
+
+    <!-- Ai Chat Message  -->
+    <div class="my-4 flex flex-1 gap-3 text-sm text-gray-600">
+        @icons.OperatorIcon()
+        <p class="leading-relaxed"><span class="block font-bold text-gray-700">Ravenol </span>
+            სამწუხაროდ პრობლემა შეიქმნა, გთოხვთ მოგვწეროთ info@alfashop.ge ზე
+        </p>
+    </div>
+}
+
+script clearSendInput() {
+    htmx.on("htmx:afterRequest", e => {
+        console.log(e)
+        if (e.detail.requestConfig.path == "/chat/mailStrategy/") {
+            document.querySelector("#C_SENDING_CENTER").style = "display: none";
+        }
+    })
+
+    // document.querySelector("#sendBut_Chat").addEventListener("click", ev => {
+
+    // })
+}
+
+templ ChatMessages(email string, fullname string, message string) {
+    <div class="flex flex-col space-y-1.5 pb-5 h-[5vh]">
+        <h2 class="text-lg font-semibold tracking-tight" id="Chat_TTILE"><span class="text-primary font-bold font-deja">Ravenol</span> support</h2>
+        <p class="text-sm leading-3 text-[#6b7280]"></p>
+    </div>
+    <div class="ChatContent h-[474px] pr-4 max-h-[60vh] flex flex-col justifu-between" >
+        <!-- Chat Message AI -->
+        <div class="my-4 flex flex-col flex-1 gap-3 text-sm text-gray-600">
+            <div class="my-4 flex flex-1 gap-3 text-sm text-gray-600" id="C_F_MESAGE">
+                @icons.OperatorIcon()
+                <p class="leading-relaxed"><span class="block font-bold text-gray-700">Ravenol </span> გამარჯობა {fullname}, რით დაგეხმაროთ? </p>
+            </div>
+            <!--  User Chat Message -->
+        </div>
+
+        <!-- Input box  -->
+        <div class="flex items-center pt-0" id="C_SENDING_CENTER">
+            <form class="flex w-full items-center justify-center space-x-2" method="post"
+                    hx-post="/chat/mailStrategy/"
+                    hx-target="#C_F_MESAGE"
+                    hx-swap="afterend"
+                    hx-ext='json-enc'>
+                <input class="hidden" value={email} name="email" />
+                <input class="hidden" value={fullname} name="fullname" />
+                <input class="flex h-10 w-full rounded-md border border-[#e5e7eb] px-3 py-2 text-sm text-[#030712] placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#9ca3af] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" 
+                       placeholder="შეიყვანეთ ტექსტი" name="message" id="IchatMess" />
+                <button type="submit" id="sendBut_Chat"
+                        onclick='document.querySelector("#C_SENDING_CENTER").style = "display: none";'
+                        class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-[#f9fafb] hover:bg-[#111827E6] disabled:pointer-events-none disabled:opacity-50">გაგზავნა</button>
+                @clearSendInput()
+            </form>
+        </div>
+    </div>
+}
+
+templ NewChat() {
+    <form class="flex flex-col gap-3" method="post"
+          hx-post="/chat/"
+          hx-swap="outerHTML"
+          hx-trigger="submit"
+          hx-ext='json-enc'>
+    <div class="flex flex-col space-y-1.5 pb-5 h-[5vh]">
+        <h2 class="text-lg font-semibold tracking-tight" id="Chat_TTILE">შეიყვანეთ მონაცემები</h2>
+        <p class="text-sm leading-3 text-[#6b7280]"></p>
+    </div>
+        <input  class="flex h-10 w-full rounded-md border border-[#e5e7eb] px-3 py-2 text-sm text-[#030712] placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#9ca3af] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" 
+                placeholder="თქვენი სახელი" name="fullname" />
+        <input  class="flex h-10 w-full rounded-md border border-[#e5e7eb] px-3 py-2 text-sm text-[#030712] placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#9ca3af] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" 
+                placeholder="თქვენი ელფოსტა" name="email" type="email" />
+        <button class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-[#f9fafb] hover:bg-[#111827E6] disabled:pointer-events-none disabled:opacity-50 w-full"
+                type="submit">გაგზავნა</button>
+    </form>
+}
+
+templ Chat() {
+    <div class="relative z-[100]">
+        <!-- component -->
+        <label  class="shadow-[0_3px_10px_rgb(0,0,0,0.2)] fixed bottom-[100px] right-[50px] inline-flex h-16 w-16 cursor-pointer items-center justify-center rounded-full  bg-none p-0 text-sm font-medium normal-case leading-5 hover:text-gray-900" 
+                type="button" aria-haspopup="dialog" aria-expanded="false" data-state="closed"
+                for="ChatToggle">
+            @ChatMax()
+            @ChatMin()
+        </label>
+
+        <input  type="checkbox" class="peer hidden" id="ChatToggle" />
+        <div    style="box-shadow: 0 8px 30px rgb(0,0,0,0.12);" 
+                class="fixed z-[9999999] bottom-[180px] right-[50px] w-[440px] rounded-lg border border-[#e5e7eb] bg-white p-6  hidden peer-checked:block mob:w-[80%]">
+            <!-- Heading -->
+
+            <!-- Chat Container -->
+            @NewChat()
+        </div>
+    </div>
+}
+
+
+templ ChatMax() {
+        <svg    onclick='document.querySelector(".minChatIBut").classList.toggle("hidden")'
+                class="absolute" style="width:100%;" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 297 297" xml:space="preserve" fill="#000000">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+            <g>
+            <g><circle style="fill:#21569e;" cx="148.5" cy="148.5" r="148.5"></circle></g>
+            <path style="fill:#21569e;" d="M68.489,183.939l110.026,110.026c62.607-12.851,110.838-65.104,117.653-129.706l-67.897-67.897 L68.489,183.939z"></path>
+            <g>
+                <path style="fill:#fecc00;" d="M148.5,66c-54.676,0-99,33.243-99,74.25c0,38.177,38.42,69.62,87.843,73.778L132,247.5l16.5-14.514 V66L148.5,66z"></path>
+                <path style="fill:#fecc00;" d="M148.5,66v166.986l23.394-20.577c43.384-7.884,75.606-37.197,75.606-72.159 C247.5,99.243,203.176,66,148.5,66z"></path>
+            </g>
+            <g>
+                <g><path style="fill:#fecc00;" d="M148.5,66v166.986l23.394-20.577c43.384-7.884,75.606-37.197,75.606-72.159 C247.5,99.243,203.176,66,148.5,66z"></path></g>
+                <g><circle style="fill:#21569e;" cx="198" cy="142.5" r="13"></circle></g>
+                <g><circle style="fill:#21569e;" cx="148.5" cy="142.5" r="13"></circle></g>
+                <g><path style="fill:#21569e;" d="M161.5,142.5c0-7.18-5.82-13-13-13v26C155.68,155.5,161.5,149.68,161.5,142.5z"></path></g>
+                <g><circle style="fill:#21569e;" cx="99" cy="142.5" r="13"></circle></g>
+            </g>
+            </g>
+        </g>
+        </svg>
+}
+
+templ ChatMin() {
+        <svg    onclick='document.querySelector(".minChatIBut").classList.toggle("hidden")'
+                class="absolute hidden minChatIBut " style="width:100%;height:inherit;border-radius:100%;background:white;"  viewBox="0 0 24 24" fill="#21569e" xmlns="http://www.w3.org/2000/svg" stroke="#21569e"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="#21569e"></path> </g></svg>
+}

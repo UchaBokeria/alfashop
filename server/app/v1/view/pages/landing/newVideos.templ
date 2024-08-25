@@ -1,0 +1,25 @@
+package view
+
+import(
+    "main/internal/model"
+)
+
+templ NewVideos(Interface model.Interface) {
+    <div class="w-full bg-[#fff] pt-20 px-[200px] mob:!pt-10 mob:!px-[50px]">
+        <h2 class="w-full text-center text-4xl text-primary font-nino font-semibold">უახლესი ვიდეოები</h2>
+        
+        <div class="w-full flex flex-wrap justify-center gap-5 pt-10">
+            for _, Video := range Interface.NewVideos {
+                <div class="w-[500px] mob:!w-[80vw] flex-shrink-0  flex-grow-1 rounded">
+                    <video class="w-full rounded-lg"
+                        src={ Video.Path } 
+                        controls="controls" 
+                        />
+                    <p class="text-2xl text-primary font-arial font-semibold py-3"> { Video.Original } </p>
+                </div>
+            }
+        </div>
+
+        <p class="cursor-pointer hidden w-full text-center text-primary text-1xl font-arial"> ყველა ვიდეოს ნახვა </p>
+    </div>
+}

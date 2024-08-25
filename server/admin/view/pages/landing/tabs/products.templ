@@ -1,0 +1,75 @@
+package tabs
+
+import "main/server/admin/view/shared"
+import "main/pkg/helpers"
+
+import(
+    "html"
+    "main/internal/model"
+)
+
+script removeProducts(id int) {
+    htmx.ajax('DELETE', '/admin/settings/products/' + id, '#Producter-cont')
+}
+
+templ Products(Products []model.Products, ProductsSelect []shared.SelectDataType) {
+    <div class="w-[100%] px-3 rounded-[8px] flex flex-col gap-5" id="Producter-cont">
+        <p class="w-full font-bold font-arial text-xl">პროდუქტები</p>
+        
+        <div class="flex flex-wrap w-full gap-5">
+            <form class="flex flex-col justify-between  grow-0 gap-7 w-[20%] p-7 bg-[#f5f5f5] rounded-[8px] shadow-lg"
+                        hx-post={"/admin/settings/products"}
+                        hx-swap="outerHTML"
+                        hx-trigger="submit"
+                        hx-target="#Producter-cont"
+                        hx-encoding='multipart/form-data'>
+
+                    <p class="w-full font-bold font-arial">დაამატე პროდუქტი</p>
+
+                    <div class="h-full flex justify-start">
+                        <div x-data='{ value: "" }'>
+                            @shared.Select("create-products", "აირჩიე პროდუქტი", ProductsSelect)
+                            <input class="hidden" name="ProductID" :value='value' />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 w-[100%]">
+                        <button type="submit" class="bg-primary text-white rounded-[8px] px-3 py-2">დამატება</button>
+                    </div>
+            </form>
+
+            for _, Product := range Products {
+                <form class="flex flex-col gap-7  p-7 bg-[#f5f5f5] rounded-[8px]"
+                        id={"update-Product-" + helpers.String(int(Product.ID))}
+                        x-data={"{ Product: " + helpers.ToJson(Product) + "}"}>
+
+                    <div class="w-full">
+                        <div class="bg-white cursor-pointer w-[290px] flex flex-col justify-between gap-5 py-4 px-5 shadower rounded-lg mob:w-full mob:justify-center"
+                             hx-get={ "/products/" + helpers.String(int(Product.ID)) } 
+                             hx-swap="innerHTML show:window:top"
+                             hx-push-url={ "/products/" + helpers.String(int(Product.ID)) } 
+                             hx-target="#Content" 
+                             hx-indicator=".Loading">
+
+                            <img src={Product.Pics[0].Path} class="m-auto h-auto w-[127px] object-fit mob:h-half mob:w-half" />
+
+                            <p class="w-full font-deja font-bold text-gray-[#333]"> { Product.Name } </p>
+
+                            <div class="w-full font-arial h-[90px] overflow-hidden line-clamp-3 text-gray-600"> 
+                                @templ.Raw(html.UnescapeString(Product.DescriptionHtml))
+                            </div>
+
+                            <a href={templ.SafeURL( "/products/" + helpers.String(int(Product.ID)) )} 
+                                target="__blank" class="w-full text-right text-primary font-nino font-bold"> გაიგე მეტი </a>
+                        </div>
+                    </div>
+
+                    <button type="button" class="bg-[#FF3232] text-white rounded-[8px] px-3 py-2" onclick={removeProducts(int(Product.ID))}>
+                            წაშლა
+                    </button>
+                </form>
+            }
+
+        </div>
+    </div>
+}

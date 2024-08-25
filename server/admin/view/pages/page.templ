@@ -1,0 +1,43 @@
+package admin
+
+import scripts "main/server/admin/view/shared"
+
+type NavsType struct {
+    Path string
+    Slug string
+    Name string
+}
+
+var Navs []NavsType = []NavsType{
+    { Path: "/setting/contacts",  Slug: "interface", Name: "ინტერფეისი" },
+    { Path: "/products", Slug: "products",  Name: "პროდუქტები" },
+    { Path: "/posts",    Slug: "posts",     Name: "სიახლეები" },
+    { Path: "/branches", Slug: "location",  Name: "ლოკაციები" },
+    { Path: "/company",  Slug: "company",   Name: "კომპანია" },
+}
+
+templ Page(component templ.Component) {
+    @scripts.CkeEditorConfig()
+    @Layout() {
+        <div class="w-[15%] h-[100vh] fixed top-0 left-0 float-left bg-primary p-10">
+            <div class="w-full flex flex-col gap-10 ">
+                <h2 class="text-4xl text-white font-bold font-poppins tracking-widest">ალფაშოპი</h2>
+
+                for _, Route := range Navs {
+                    <p  class="w-half cursor-pointer text-white font-semibold font-nino"
+                        hx-get={ "/admin" + Route.Path } 
+                        hx-push-url={ "/admin" + Route.Path } 
+                        hx-target="#AdminContent" 
+                        hx-swap="innerHTML show:window:top"> 
+                        {Route.Name}
+                    </p>
+                }
+
+            </div>
+        </div>
+
+        <div class="w-[85%] bg-gray-50 min-h-[110vh] float-right p-10" id="AdminContent">
+            @component
+        </div>
+    }
+}

@@ -1,0 +1,104 @@
+package view
+
+import(
+	"main/pkg/globals"
+)
+
+templ Meta() {
+    <!-- Character Set -->
+    <meta charset="UTF-8" />
+    <!-- Viewport Settings for Responsive Design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Document Title -->
+    <title>Ravenol</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://www.alfashop.ge/assets/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://www.alfashop.ge/assets/favicon.ico" type="image/x-icon" />
+    
+    <!-- Meta Description for SEO -->
+    <meta name="description" content="ჩვენ ვავითარებთ, ვაწარმოებთ და ვაწარმოებთ მაღალი ხარისხის საპოხი მასალებს, რომლებიც თანაბრად ცნობილია როგორც გერმანიაში, ასევე საერთაშორისო ბაზარზე. ჩვენს უახლეს, შიდა ლაბორატორიებში, მაღალი ხარისხის პროდუქტები კოორდინირებულია წამყვანი ავტომწარმოებლების მოწონების მისაღებად და მომავალში ახალი სპეციფიკაციების შესასრულებლად. ხარისხის მენეჯმენტი უზრუნველყოფს პროდუქტის მაღალ სტანდარტს, რომელიც გარანტირებულია წარმოებიდან გადაზიდვამდე..." />
+    <!-- Robots Meta Tag for Indexing and Following Links -->
+    <meta name="robots" content="index, follow" />
+    <!-- Canonical URL to Avoid Duplicate Content -->
+    <link rel="canonical" href="https://www.alfashop.ge/" />
+    
+    <!-- Language and Region -->
+    <meta name="language" content="KA" />
+    <meta http-equiv="content-language" content="ka-GE" />
+    
+    <!-- Author Meta Tag -->
+    <meta name="author" content="ravenol" />
+    
+    <!-- Generator Meta Tag (if applicable) -->
+    <meta name="generator" content="ravenol, Georgia" />
+    
+    <!-- Keywords Meta Tag (deprecated, but sometimes used) -->
+    <meta name="keywords" content="ravenol, alfashop.ge, car oils, www.alfashop.ge, ალფაშოპი, ზეთები, საპოხი, Georgian, ქართული, მანქანები, ნაწილები" />
+    
+    <!-- Rating Meta Tag -->
+    <meta name="rating" content="general" />
+    
+    <!-- Distribution Meta Tag -->
+    <meta name="distribution" content="global" />
+    
+    <!-- Open Graph Meta Tags for Social Media Sharing -->
+    <meta property="og:title" content="ალფაშოპი საპოხი მასალების სრულ ასორტიმენტს" />
+    <meta property="og:description" content="ჩვენ ვავითარებთ, ვაწარმოებთ და ვაწარმოებთ მაღალი ხარისხის საპოხი მასალებს, რომლებიც თანაბრად ცნობილია როგორც გერმანიაში, ასევე საერთაშორისო ბაზარზე. ჩვენს უახლეს, შიდა ლაბორატორიებში, მაღალი ხარისხის პროდუქტები კოორდინირებულია წამყვანი ავტომწარმოებლების მოწონების მისაღებად და მომავალში ახალი სპეციფიკაციების შესასრულებლად. ხარისხის მენეჯმენტი უზრუნველყოფს პროდუქტის მაღალ სტანდარტს, რომელიც გარანტირებულია წარმოებიდან გადაზიდვამდე..." />
+    <meta property="og:url" content="https://www.alfashop.ge/" />
+    <meta property="og:image" content="https://alfashop.ge/assets/images/logo.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ka_GE" />
+    <meta property="og:locale:alternate" content="ka_GE" />
+    
+    <!-- Structured Data Markup (Schema.org) -->
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "WebSite",
+            "name": "ravenol In Georgia",
+            "url": "https://www.alfashop.ge",
+            "description": "ravenol Oil World Records, გთავაზობთ მაღალი ხარისხის საპოხი მასალების სრულ ასორტიმენტს, მოტოციკლებისთვის, ავტომობილებისთვის, ტრანსპორტისთვის...",
+            "author": {
+                "@type": "Organization",
+                "name": "ravenol"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "ravenol"
+            }
+        }
+    </script>
+}
+
+templ Preprocessor() {
+    <script src="/assets/scripts/utils.js"></script>
+
+    // <script src="/assets/scripts/htmx.min.js"></script>
+    // <script src="/assets/scripts/alpine.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script src="https://unpkg.com/htmx.org@latest"></script>
+    <script src="https://unpkg.com/htmx.org@latest/dist/ext/json-enc.js"></script>
+
+    <script src="https://unpkg.com/htmx-ext-alpine-morph@2.0.0/alpine-morph.js"></script>
+    <!-- Alpine Plugins -->
+    <script defer src="https://unpkg.com/@alpinejs/morph@latest/dist/cdn.min.js"></script>
+    <!-- Alpine Core -->
+    <script defer src="https://unpkg.com/alpinejs@latest/dist/cdn.min.js"></script>
+    
+
+    <link href="/assets/styles/product-combine.css" rel="stylesheet" />
+    if globals.Env.GOENV == "development" {
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="/assets/scripts/reload.js"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/debug.js"></script>
+        <link href="/assets/styles/style.css" rel="stylesheet" />
+    } else {
+        <script src="/assets/scripts/tailwind.min.js"></script>
+        <link href="/assets/styles/style.min.css" rel="stylesheet" />
+    }
+}

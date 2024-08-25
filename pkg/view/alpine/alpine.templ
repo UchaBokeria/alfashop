@@ -1,0 +1,23 @@
+package alpine
+
+import "main/pkg/helpers"
+
+templ Component(args map[string]interface{}) {
+    <div x-data={helpers.ToJson(args)}>
+        {children...}
+    </div>
+}
+
+func Set(args any) templ.Attributes {
+    return templ.Attributes{
+        "x-data": helpers.ToJson(args),
+    }
+}
+
+func New(args any) string {
+    if args == nil || args == "" {
+        return "{data: ''}"
+    } else {
+        return helpers.ToJson(args)
+    }
+}

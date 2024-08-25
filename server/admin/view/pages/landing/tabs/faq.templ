@@ -1,0 +1,60 @@
+package tabs
+
+import(
+    "strconv"
+    "main/internal/model"
+)
+
+script removeFaq(id int) {
+    htmx.ajax('DELETE', '/admin/settings/faqers/' + id, '#Faqer-cont')
+}
+
+templ Faq(Faqs []model.Faq) {
+    <div class="w-[100%] py-5 rounded-[8px] flex flex-col gap-5" id="Faqer-cont">
+        <p class="w-full font-bold font-arial text-xl">კითხვარი</p>
+        
+        <div class="flex flex-wrap w-full gap-5">
+            <form class="flex flex-col h-[45vh] grow-0 gap-7 w-[30%] p-7 bg-[#f5f5f5] rounded-[8px]"
+                        hx-post={"/admin/settings/faqers"}
+                        hx-swap="outerHTML"
+                        hx-trigger="submit"
+                        hx-target="#Faqer-cont"
+                        hx-ext='json-enc'>
+
+                    <p class="w-full font-bold font-arial">შექმენი ახალი კითხვარი</p>
+
+                    <input class="w-[100%] p-2 px-5 rounded-[8px] outline-0" type="text" name="Name" placeholder="სახელი" />
+                    <input class="w-[100%] p-2 px-5 rounded-[8px] outline-0" type="text" name="Question" placeholder="შეკითხვა" />
+                    <input class="w-[100%] p-2 px-5 rounded-[8px] outline-0" type="text" name="Answer" placeholder="პასუხი" />
+            
+                    <div class="flex flex-col gap-2 w-[100%]">
+                        <button type="submit" class="bg-primary text-white rounded-[8px] px-3 py-2">დამატება</button>
+                    </div>
+            </form>
+
+            for _, Faq := range Faqs {
+                <form class="flex flex-col gap-7 w-[30%] p-7 bg-[#f5f5f5] rounded-[8px]"
+                        id={"update-Faq-" + strconv.Itoa(int(Faq.ID))}
+                        hx-post={"/admin/settings/faqers/" + strconv.Itoa(int(Faq.ID))}
+                        hx-swap="outerHTML"
+                        hx-trigger="submit"
+                        hx-target="#Faqer-cont"
+                        hx-ext='json-enc'>
+                    
+                    
+                    <input class="w-[100%] p-2 px-5 rounded-[8px] outline-0" type="text" name="Name" placeholder="სახელი" value={Faq.Name} />
+                    <input class="w-[100%] p-2 px-5 rounded-[8px] outline-0" type="text" name="Question" placeholder="შეკითხვა" value={Faq.Question} />
+                    <input class="w-[100%] p-2 px-5 rounded-[8px] outline-0" type="text" name="Answer" placeholder="პასუხი" value={Faq.Answer} />
+                    
+                    <div class="flex flex-col gap-2 w-[100%]">
+                        <button type="submit" class="bg-primary text-white rounded-[8px] px-3 py-2">შენახვა</button>
+                    </div>
+
+                    <button type="button" class="bg-[#FF3232] text-white rounded-[8px] px-3 py-2" onclick={removeFaq(int(Faq.ID))}>
+                            წაშლა
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+}

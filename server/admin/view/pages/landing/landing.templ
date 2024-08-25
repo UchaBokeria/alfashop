@@ -1,0 +1,15 @@
+package landing
+
+templ Page(Tab string) {
+    <div class="w-full" x-data='{tabs: { selected: 1 }}' id="interfacer">
+        <h1 class="w-full text-3xl font-semibold font-nino">ინტერფეისი</h1>
+
+        <div class="w-full py-5 ">
+            @Tabs(tabs, Tab)
+        </div>
+
+        <div class="w-full py-5 flex" id="interface-output" hx-get={"/admin/settings/" + Tab} hx-trigger="intersect once">
+            გთხოვთ მოიცადოთ
+        </div>
+    </div>
+}

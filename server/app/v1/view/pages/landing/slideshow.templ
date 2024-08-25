@@ -1,0 +1,50 @@
+package view
+
+import(
+    "fmt"
+    "main/internal/model"
+)
+
+css Slider(len int, dur int) {
+    animation-name: { templ.SafeCSSProperty( fmt.Sprintf(" slider-%d", len) ) };
+    animation-duration: { templ.SafeCSSProperty( fmt.Sprintf(" %ds", len * dur) ) };
+    animation-fill-mode: backwards;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+}
+
+templ Slideshow(Interface model.Interface) {
+    <div class="w-[99vw] h-[85vh] top-[0] mt-[-190px] ml-[-200px] mob:!ml-[-50px] mob:overflow-hidden mob:!h-[100vh]">
+        <div class="relative w-full h-full flex snap-x snap-mandatory overflow-x-scroll no-scrollbar ">
+
+            for _, Slide := range Interface.SlideShow {
+                <div class={"relative w-[100%] h-full shrink-0", Slider(len(Interface.SlideShow), 7), " "}>
+
+                    <img src={ Slide.Pic.Path } class="w-full object-cover h-full" />
+                    <div class="absolute top-0 left-0 w-full h-full bg-black opacity-30" />
+
+                    <div class="pb-20 mob:!py-10 mob:!pt-20 pt-40  carousel-caption w-[45%] overflow-hidden absolute inset-0 left-[200px] top-[15%] flex flex-col gap-[20px] justify-start items-start text-center mob:left-[50px] mob:w-[80%]">
+                        <h1 class="animated bounceIn bg-clip-text cursor-pointer text-5xl font-nino font-bold text-white mb-4 flex w-full align-start justify-start text-left"
+                            hx-get={ Slide.Url } hx-push-url={ Slide.Url } hx-swap="innerHTML show:window:top" hx-target="#Content">
+                            { Slide.Slogan }
+                        </h1>
+
+                        <h3 class="animated bounceIn cursor-pointer text-2xl text-white font-deja mb-6 text-left overflow-hidden line-clamp-4 leading-[2.2rem] mob:!line-clamp-3 mob:!h-[250px]"
+                            hx-get={ Slide.Url } hx-push-url={ Slide.Url } hx-swap="innerHTML show:window:top" hx-target="#Content">
+                            if Slide.Desc == "" {
+                                <p class="cursor-pointer h-[300px]" > </p>
+                            } else {
+                                { Slide.Desc }
+                            }
+                        </h3>
+
+                        <a  class="animated bounceInLeft shadow-[0_8px_30px_rgb(0,0,0,0.12)] cursor-pointer bg-secondary text-black font-nino font-bold py-2.5 pt-4 px-6 rounded-lg"
+                            hx-get={ Slide.Url } hx-push-url={ Slide.Url } hx-swap="innerHTML show:window:top" hx-target="#Content">
+                            გაიგე მეტი
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

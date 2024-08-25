@@ -1,0 +1,53 @@
+package tabs
+
+import "main/server/admin/view/shared"
+import "main/internal/model"
+
+script removeVideos(id int) {
+    htmx.ajax('DELETE', '/admin/settings/newvideos/' + id, '#Videoer-cont')
+}
+
+templ NewVideos(Videos []model.Files) {
+    <div class="w-[100%] px-3 rounded-[8px] flex flex-col gap-5" id="Videoer-cont">
+        <p class="w-full font-bold font-arial text-xl">ახალი ვიდეოები</p>
+
+        <div class="flex flex-wrap w-full gap-5">
+            <form class="flex flex-col justify-between  grow-0 gap-7 w-[30%] p-7 bg-[#f5f5f5] rounded-[8px] shadow-lg"
+                    hx-post={"/admin/settings/newvideos"}
+                    hx-swap="outerHTML"
+                    hx-trigger="submit"
+                    hx-target="#Videoer-cont"
+                    hx-encoding='multipart/form-data'>
+
+                    <p class="w-full font-bold font-arial">დაამატე ვიდეო</p>
+
+                    <div class="h-full flex justify-start w-full">
+                        <div x-data='{ value: "" }' class="w-full">
+                            <input class="hidden" id="addvideo" name="file" type="file" :value='value' />
+                            @shared.Upload("addvideo")
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 w-[100%]">
+                        <button type="submit" class="bg-primary text-white rounded-[8px] px-3 py-2">დამატება</button>
+                    </div>
+            </form>
+
+            for _, Video := range Videos {
+                <div class="flex flex-col gap-7  p-7 bg-[#f5f5f5] rounded-[8px]">
+                    <div class="w-full">
+                        <div class="bg-white cursor-pointer w-[290px] flex flex-col justify-between gap-5 py-4 px-5 shadower rounded-lg mob:w-full mob:justify-center">
+                            <video src={Video.Path} class="m-auto h-auto w-full object-fit mob:h-half mob:w-half" controls />
+                            <p class="w-full font-deja font-bold text-gray-[#333]"> { Video.Original } </p>
+                        </div>
+                    </div>
+
+                    <button type="button" class="bg-[#FF3232] text-white rounded-[8px] px-3 py-2" 
+                            onclick={removeVideos(int(Video.ID))}>
+                            წაშლა
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+}

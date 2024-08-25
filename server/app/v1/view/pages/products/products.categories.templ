@@ -1,0 +1,33 @@
+package view
+
+import(
+    "strconv"
+    "main/internal/model"
+)
+
+templ ProductCategories(Categories []model.Categories) {
+    <div class="w-full">
+        <p class="w-full pb-[4vh]">
+            <span class="text-3xl font-nino font-bold text-primary">მოძებნე</span>
+            <span class="text-3xl font-nino font-bold text-primary"> კატეგორიით</span>
+        </p>
+
+        <div class="animated fadeIn max-w-[100%] w-auto h-[auto] flex flex-wrap border-l-2 border-t-[2px] ">
+            for _, Category := range Categories {
+                <div class="cursor-pointer overflow-hidden w-1/5 h-auto px-[20px] flex gap-[5%] flex-col align-between justify-center border-r-[2px] border-b-[2px] mob:w-full" 
+                        hx-get={"/products?category=" + strconv.Itoa(int(Category.ID))} 
+                        hx-push-url={"/products/?category=" + strconv.Itoa(int(Category.ID))} 
+                        hx-swap="innerHTML show:window:top" hx-target="#Content">
+                    <div class="w-[100%] h-[80%] py-5 px-2">
+                        <img class="h-[100%] w-[100%] object-fit" src={ Category.Icon.Path } />
+                    </div>
+                    <p class="font-nino font-bold text-primary w-[100%] h-[10%] text-left truncate "> { Category.Name } </p>
+                </div>
+            }
+        </div>
+
+        <a class="flex cursor-pointer mt-[10vh] mb-[6vh]" href="https://shop.alfamotors.ge" target="_blank">
+            <img src="/assets/images/banner.svg" class="w-[100%] mob:hidden" />
+        </a>
+    </div>
+}

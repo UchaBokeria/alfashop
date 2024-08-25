@@ -1,0 +1,151 @@
+package shared
+
+import (
+	"main/internal/model"
+	"main/pkg/view/schemas"
+	"main/pkg/view/scripts"
+	"time"
+	"main/internal/icons"
+)
+
+type LinksType struct {
+	Title  string
+	Routes []schemas.Links
+}
+
+var FooterLinks []LinksType = []LinksType{
+	{
+		Title:  "გვერდები",
+		Routes: schemas.Routes,
+	},
+	// {
+	//     Title: "კატალოგი",
+	//     Routes: []schemas.Links{
+	//         {Path: "/products?categories=oils", Name: "ზეთები", Slug: "oils"},
+	//         {Path: "/products?categories=cleaning", Name: "საწმენდი", Slug: "cleaning"},
+	//         {Path: "/products?categories=farming", Name: "მეურნეობა", Slug: "farming"},
+	//         {Path: "/products?categories=specialties", Name: "სპეციალობები", Slug: "oils"},
+	//         {Path: "/categories", Name: "ნახე მეტი", Slug: "more"},
+	//     },
+	// },
+}
+
+templ Footer(Interface model.Interface) {
+	<footer class="w-[100%] h-[400px] flex flex-col justify-between bg-primary relative bottom-[0] mob:overflow-visible mob:!h-[300px]">
+		<div class="flex justify-between items-center w-[100%] h-full px-[200px] py-[40px] mob:px-[30px] mob:flex-col mob:!gap-[30px] mob:!h-auto">
+			<div class="w-[45%] flex flex-col justify-between items-start flex-grow-0 flex-shrink-0 relative gap-[100px] mob:w-full mob:items-center">
+				<a class="flex-grow-0 flex-shrink-0 h-[72px] mob:!h-auto mob:!py-4 w-[100%] leading-6 line-clamp-3 text-md font-arial text-white mob:hidden">
+					{ Interface.Contact.ShortDesc }
+				</a>
+				<div class="flex justify-center items-start flex-grow-0 flex-shrink-0  gap-[25px]">
+					<div class="flex justify-start items-start flex-grow-0 flex-shrink-0 w-[25px] h-[22px]">
+						<a
+							class="cursor-pointer flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[25px] w-[30px] relative overflow-hidden"
+							href={ templ.SafeURL(Interface.SocialMedia[0].Url) }
+							target="_blank"
+						>
+							@icons.Facebook()
+						</a>
+					</div>
+					<div class="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[23px] w-[30px]">
+						<a
+							class="cursor-pointer flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[30px] w-[30px] relative overflow-hidden"
+							href={ templ.SafeURL(Interface.SocialMedia[2].Url) }
+							target="_blank"
+						>
+							@icons.Twitter()
+						</a>
+					</div>
+					<div class="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[23px] w-[30px] relative mt-[-6px]">
+						<a
+							class="cursor-pointer flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[35px] w-[40px] relative overflow-hidden"
+							href={ templ.SafeURL(Interface.SocialMedia[3].Url) }
+							target="_blank"
+						>
+							@icons.Youtube()
+						</a>
+					</div>
+					<div class="flex justify-start items-start flex-grow-0 flex-shrink-0 w-[30px] h-[30px] relative mt-[-1px]">
+						<a
+							class="cursor-pointer flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[25px] w-[30px] relative overflow-hidden"
+							href={ templ.SafeURL(Interface.SocialMedia[1].Url) }
+							target="_blank"
+						>
+							@icons.Instagram()
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="w-[45%] flex justify-end gap-[20%] items-center flex-grow-0 flex-shrink-0  mob:w-full mob:items-center mob:justify-center">
+				for _, Link := range FooterLinks {
+					<div class="flex flex-col justify-between items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-7 mob:hidden">
+						<p class="flex-grow-0 flex-shrink-0 w-[110px] text-lg font-nino font-bold text-left text-white mob:hidden">{ Link.Title } </p>
+						<div class="flex flex-col justify-end items-start flex-grow gap-4 mob:items-center">
+							for _, Nav := range Link.Routes {
+								<a
+									class="cursor-pointer flex-grow-0 flex-shrink-0 w-[110px] h-[20px] text-sm font-deja text-left text-white"
+									hx-get={ Nav.Path }
+									hx-push-url={ Nav.Path }
+									hx-indicator=".Loading"
+									hx-swap="innerHTML show:window:top"
+									hx-target="#Content"
+								>
+									{ Nav.Name }
+								</a>
+							}
+						</div>
+					</div>
+				}
+				<div class="flex flex-col justify-between items-start self-stretch flex-grow-0 flex-shrink-0 gap-7">
+					<p class="flex-grow-0 flex-shrink-0 w-[110px] text-lg font-nino font-bold text-white mob:hidden">კონტაქტი</p>
+					<div
+						class="flex flex-col justify-start items-start flex-grow gap-4 mob:items-center "
+						x-data={ "{ phone: '" + Interface.Contact.Phone + "' }" }
+						@click="CopyToClipboard(phone) && Toast('დაკოპირებულია')"
+					>
+						<div
+							class="cursor-pointer flex justify-start items-start flex-grow-0 flex-shrink-0 gap-2"
+							onclick={ scripts.Call(Interface.Contact.Phone) }
+						>
+							<div class="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 w-6 relative overflow-hidden">
+								@icons.WhitePhone()
+							</div>
+							<div class="cursor-pointer flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
+								<p class="font-poppins cursor-pointer mt-[4px] flex-grow-0 flex-shrink-0 align-center justify-center h-6 text-sm text-left text-white leading-normal">
+									{ Interface.Contact.Phone }
+								</p>
+							</div>
+						</div>
+						<a
+							class="cursor-pointer flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-[9px]"
+							href={ templ.SafeURL("mailto:" + Interface.Contact.Email) }
+							target="_blank"
+						>
+							<p class="cursor-pointer flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 w-6 relative gap-2.5">
+								@icons.Email()
+							</p>
+							<p class="cursor-pointer font-poppins flex-grow-0 flex-shrink-0 text-sm text-left text-white">{ Interface.Contact.Email } </p>
+						</a>
+						<a
+							class="cursor-pointer flex justify-start items-start flex-grow-0 flex-shrink-0 h-16 gap-2"
+							href={ templ.SafeURL(Interface.Contact.LocationLink) }
+							target="_blank"
+						>
+							<p class="cursor-pointer flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-6 relative">
+								@icons.Location("white")
+							</p>
+							<p class="w-[200px] cursor-pointer text-white line-clamp-3 flex justify-start items-start flex-grow-0 flex-shrink-1 font-deja mob:line-clamp-2">
+								{ Interface.Contact.Location }
+							</p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="w-full h-[40px] bg-white">
+			<p class="w-[100%] h-[42px] flex items-center justify-center text-primary text-xs font-poppins font-semibold">
+				© { time.Now().UTC().Format("2006") } Ravensberger Schmierstoffvertrieb GmbH
+			</p>
+		</div>
+	</footer>
+}

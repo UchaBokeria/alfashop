@@ -1,0 +1,95 @@
+package view
+
+import "main/internal/icons"
+
+import(
+    "strconv"
+    "main/internal/model"
+)
+
+script ProdSearcher() {
+    const params = new URLSearchParams(window.location.search)
+    let productSearcher = document.querySelector("#productSearcher")
+
+    productSearcher.addEventListener("keyup", e => {
+        let path = (params.get("page") || 1) + 
+                "&category=" + (params.get("category")) + 
+                "&searcher=" + e.target.value
+        htmx.ajax(
+            'GET',
+            "/products/list?page=" + path,
+            { 
+                target: '#ProductContent', 
+                swap: "innerHTML show:window:top",
+                indicatorClass: ".Loading",
+            }
+        )
+        // history.pushState("", "", "/products?page=" + path)
+    })
+}
+
+templ ProductFilters(Category model.Categories, Categories []model.Categories) {
+    <div class=" w-full flex flex-wrap gap-5 py-[2vh]">
+        <div class="relative flex flex-col gap-2 min-w-[300px] mob:min-w-[200px] z-[58]">
+            <label  class="cursor-pointer bg-[#eee] w-full flex justify-between items-center px-5 py-2 rounded-xl"
+                    for={ "ProdFilterID-Category_$_$_" }>
+                <p class="font-poppins"> { Category.Name } </p>
+
+                <div class="w-8">
+                    @icons.DownToggleArrow()
+                </div>
+            </label>
+
+            <input type="checkbox" id={ "ProdFilterID-Category_$_$_" } class="peer hidden" />
+            <div class="absolute z-[57] top-[55px] w-full group bg-[#eee] rounded-xl flex flex-col overflow-hidden max-h-[0] peer-checked:max-h-[30vh] peer-checked:py-2 peer-checked:overflow-y-auto">
+                for _, Categorie := range Categories {
+                    <div class="w-full flex jutify-start items-center">
+                        <input  type="checkbox" id={ "ProdFilter-Category-" + strconv.Itoa(int(Categorie.ID)) } 
+                                class="peer hidden" checked?={Category.ID == Categorie.ID} />
+
+                        <label  class="cursor-pointer py-2 px-5 h-full w-full peer-checked:bg-[#21569e] peer-checked:text-white hover:text-white hover:bg-[#21569e]"
+                                for={ "ProdFilter-Category-" + strconv.Itoa(int(Categorie.ID)) }
+                                hx-get={ "/products/?category=" +  strconv.Itoa(int(Categorie.ID)) }
+                                hx-push-url={ "/products/?category=" +  strconv.Itoa(int(Categorie.ID)) }
+                                hx-swap="innerHTML show:window:top" hx-indicator=".Loading" hx-target="#Content">
+                                { Categorie.Name }
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="relative flex items-center justify-start gap-3 min-w-[350px] mob:min-w-[200px] z-[55] bg-[#eee] px-5 py-2 rounded-xl">
+            @icons.SearchIcon()
+            <input name="search" class="w-full bg-[#eee] outline-0" placeholder="ძებნა" id="productSearcher" />
+        </div>
+
+        @ProdSearcher()
+
+        // for _, Filter := range Category.Filters {
+        //     <div class="relative flex flex-col gap-2">
+        //         <label  class="cursor-pointer bg-[#eee] w-full flex justify-between items-center px-5 py-2 rounded-xl relative  z-[53]"
+        //                 for={ "ProdFilterID-" + Filter.Slug }>
+        //             <p class="font-poppins"> { Filter.Name } </p>
+
+        //             <div class="w-8">
+        //                 @DownToggleArrow()
+        //             </div>
+        //         </label>
+
+        //         <input type="checkbox" id={ "ProdFilterID-" + Filter.Slug } class="peer hidden" />
+        //         <div class="absolute top-[55px] z-[55] w-full group bg-[#eee] rounded-xl flex flex-col overflow-hidden max-h-[0] peer-checked:max-h-[30vh] peer-checked:py-2 peer-checked:overflow-y-auto">
+        //             for _, Option := range Filter.Options {
+        //                 <div class="w-full flex jutify-start items-center">
+        //                     <input  type="checkbox" id={ "ProdFilter-" + strconv.Itoa(int(Filter.ID)) + "-" + strconv.Itoa(int(Option.ID)) } class="peer hidden" />
+        //                     <label  class="cursor-pointer py-2 px-5 h-full w-full peer-checked:bg-[#21569e] peer-checked:text-white hover:text-white hover:bg-[#21569e]"
+        //                             for={ "ProdFilter-" + strconv.Itoa(int(Filter.ID)) + "-" + strconv.Itoa(int(Option.ID)) }>
+        //                             { Option.Name }
+        //                     </label>
+        //                 </div>
+        //             }
+        //         </div>
+        //     </div>
+        // } 
+    </div>
+}

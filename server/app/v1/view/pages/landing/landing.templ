@@ -1,0 +1,17 @@
+package view
+
+import(
+    "main/internal/model"
+)
+
+templ Landing(Interface model.Interface) {
+  <div class="left-0 w-full flex flex-col gap-[5vh] justify-between align-start">
+    @Slideshow(Interface)
+    @Presentation(Interface)
+    @Inovation(Interface)
+    @NewProducts(Interface)
+    @News(Interface)
+    @Events(Interface)
+    @NewVideos(Interface)
+  </div>
+}

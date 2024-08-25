@@ -1,0 +1,46 @@
+package admin
+
+
+import(
+    "main/pkg/view/scripts"
+)
+
+templ Login() {
+    @Layout() {
+        <div class="w-full fixed top-0 left-0 bg-gray-100 flex justify-center items-center h-screen" id="Login">
+            <div class="w-1/2 h-screen hidden lg:block">
+                <img src="/assets/images/login.jpeg" class="object-cover w-full h-full" />
+            </div>
+
+            <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
+                <h1 class="text-2xl mb-4 font-nino font-bold">კაბინეტი</h1>
+
+                <form   hx-post="/auth/login/"
+                        hx-target="#Login"
+                        hx-swap="outerHTML"
+                        hx-trigger="submit"
+                        hx-ext='json-enc'>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-600 mb-2 font-arial">ელფოსტა</label>
+                        <input  class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" 
+                                type="email" id="email" name="email" required autocomplete="off" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-600 mb-2 font-arial">პაროლი</label>
+
+                        <input  class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                                type="password" id="password" name="password" required autocomplete="off" />
+                    </div>
+
+                    <button class="bg-primary hover:bg-primary-600 text-white font-semibold rounded-md py-2 px-4 w-full font-nino"
+                            type="submit">
+                        <p class="mt-2">შესვლა</p>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        @scripts.Auth("/auth/login")
+    }
+}

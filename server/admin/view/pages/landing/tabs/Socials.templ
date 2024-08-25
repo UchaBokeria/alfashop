@@ -1,0 +1,31 @@
+package tabs
+
+import "main/server/admin/view/shared"
+
+import(
+    "main/internal/model"
+)
+
+templ Socials(SocialMedia []model.Social_media) {
+    <form   class="w-[100%] px-5 rounded-[8px] flex flex-col gap-5"
+            hx-post="/admin/settings/socials"
+            hx-swap="outerHTML"
+            hx-trigger="submit"
+            hx-ext='json-enc'>
+        <p class="w-full font-bold font-arial text-xl">სოციალური ქსელები</p>
+
+        <div class="w-[100%] flex flex-col gap-[5vh]">
+        
+            for _, Social := range SocialMedia{
+                <div x-data={"{ value: '" + Social.Url + "' }"} class="flex flex-col gap-2 w-[100%]">
+                    @shared.Input("update-social-" + Social.Slug, Social.Slug)
+                    <input class="hidden" name={Social.Name} :value='value' />
+                </div>
+            }
+
+            <div class="flex flex-col gap-2 w-[100%]">
+                <button type="submit" class="bg-primary text-white rounded-[8px] px-3 py-2">შენახვა</button>
+            </div>
+        </div>
+    </form>
+}

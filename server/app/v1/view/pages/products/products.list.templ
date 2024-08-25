@@ -1,0 +1,28 @@
+package view
+
+import(
+    "strconv"
+    "html"
+    "main/internal/model"
+)
+
+templ ProductList(Page string, Searcher string, CategoryID string, Products []model.Products) {
+    for _, Product := range Products {
+        <div class="cursor-pointer w-[290px] flex flex-col justify-between gap-5 py-4 px-5 shadower rounded-lg mob:w-full mob:justify-center"
+            hx-get={ "/products/" + strconv.Itoa(int(Product.ID)) } hx-swap="innerHTML show:window:top"
+            hx-push-url={ "/products/" + strconv.Itoa(int(Product.ID)) } hx-target="#Content" hx-indicator=".Loading">
+
+            <img src={Product.Pics[0].Path} class="m-auto h-auto w-[127px] object-fit mob:h-half mob:w-half" />
+
+            <p class="w-full font-deja font-bold text-gray-[#333]"> { Product.Name } </p>
+
+            <div class="w-full font-arial h-[90px] overflow-hidden line-clamp-3 text-gray-600"> @templ.Raw(html.UnescapeString(Product.DescriptionHtml)) </div>
+
+            <button class="w-full text-right text-primary font-nino font-bold"> გაიგე მეტი </button>
+        </div>
+    }
+    <div
+         hx-get={"/products/list?page=" + Page + "&category=" + CategoryID + "&searcher=" + Searcher}
+         hx-trigger="intersect once" hx-swap="beforeend swap:0.6s" hx-target="#ProductContent">
+    </div>
+}

@@ -1,0 +1,15 @@
+package view
+
+import "main/internal/model"
+
+templ Pager(page model.Company) {
+    <div class="w-full">
+        <p class="w-full">
+            <span class="text-3xl font-nino font-bold text-primary"> {page.Name} </span>
+        </p>
+
+        <p class="text-base text-left text-black py-[4vh]">
+            @templ.Raw(page.Body)
+        </p>
+    </div>
+}

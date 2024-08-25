@@ -1,0 +1,31 @@
+package view
+
+import(
+    "fmt"
+    "main/internal/model"
+    "main/pkg/helpers"
+)
+
+templ PostFilters(Filters []model.Posts_types, Current string) {
+    <div class="w-full flex flex-wrap gap-5 justify-start my-[2vh]" x-data={fmt.Sprintf("{ current: '%s' }", Current)}>
+        <div    class="cursor-pointer flex items-center rounded-[20px] px-5 py-2.5"
+                :class='current == "" ? "bg-primary text-white" : ""'
+                hx-get="/posts/"
+                hx-push-url="/posts/"
+                hx-target="#Content" hx-swap="innerHTML show:window:top">
+
+            <p  class="font-arial tracking-normal"> ყველა  </p>
+        </div>
+
+        for _, Filter := range Filters {
+            <div    class="cursor-pointer flex items-center rounded-[20px] px-5 py-2.5" 
+                    :class={fmt.Sprintf("current == '%s' ? 'bg-primary text-white' : '' ", helpers.String(int(Filter.ID)))}
+                    hx-get={ "/posts/?type=" +  helpers.String(int(Filter.ID)) }
+                    hx-push-url={ "/posts/?type=" +  helpers.String(int(Filter.ID)) }
+                    hx-target="#Content" hx-swap="innerHTML show:window:top">
+
+                    <p class="font-arial tracking-normal">{ Filter.Name } </p>
+                </div>
+        }
+    </div>
+}

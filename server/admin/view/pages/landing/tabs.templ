@@ -1,0 +1,57 @@
+package landing
+
+import(
+    "main/server/admin/view/shared/vectors"
+)
+
+type InterfaceTabs struct {
+    Slug string
+    Name string
+    Icon func(color string) templ.Component
+}
+
+var tabs []InterfaceTabs = []InterfaceTabs {
+    {Slug: "contacts",      Icon: icons.Contacts,     Name: "კონტაქტი"},
+    {Slug: "about",         Icon: icons.About,        Name: "შესახებ"},
+    {Slug: "socials",       Icon: icons.Socials,      Name: "სოც ქსელები"},
+    {Slug: "slideshow",     Icon: icons.SlideShow,    Name: "სლაიდშოუ"},
+    {Slug: "presentation",  Icon: icons.Inovation,    Name: "პრეზენტაცია"},
+    {Slug: "products",      Icon: icons.Products,     Name: "პროდუქტი"},
+    {Slug: "news",          Icon: icons.News,         Name: "სიახლეები"},
+    {Slug: "events",        Icon: icons.Events,       Name: "ივენთები"},
+    {Slug: "newvideos",     Icon: icons.NewVideos,    Name: "ახალი ვიდეოები"},
+}
+
+
+templ Tabs(tabs []InterfaceTabs, current string) {
+    <div class="border-b border-gray-200 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" >
+
+            for _, item := range tabs {
+                if item.Slug == current {
+                    <li class="me-2">
+                        <a href="#" class="inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-current="page">
+                            @item.Icon("#2563eb")
+                            <p class="px-2"> {item.Name} </p>
+                        </a>
+                    </li>
+                } else {
+                    <li class="me-2 cursor-pointer">
+                        <a  class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                            hx-get={"/admin/setting/" + item.Slug}
+                            hx-push-url="true"
+                            hx-target="#interfacer"
+                            >
+                            @item.Icon("#6b7280")
+                            <p class="px-2"> {item.Name} </p>
+                        </a>
+                    </li>
+                }
+            }
+            
+            // <li>
+            //     <a class="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed dark:text-gray-500">Disabled</a>
+            // </li>
+        </ul>
+    </div>
+}

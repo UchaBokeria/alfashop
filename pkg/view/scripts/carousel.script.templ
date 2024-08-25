@@ -1,0 +1,20 @@
+package scripts
+
+script Carousel(id string) {
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(id);
+    slides[currentSlide].classList.remove("hidden");
+
+    function showSlide(n) {
+        slides[currentSlide].classList.add("hidden");
+        slides[n].classList.remove("hidden");
+        currentSlide = n;
+    };
+
+    setInterval(() => showSlide((currentSlide + 1) % slides.length), 8000);
+}
+
+
+templ carousel__() {
+
+}

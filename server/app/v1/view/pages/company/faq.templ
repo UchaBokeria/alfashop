@@ -1,0 +1,42 @@
+package view
+
+import "main/internal/icons"
+
+import(
+    "main/internal/model"
+)
+
+
+templ Faq(Faq []model.Faq) {
+    <div class="w-full">
+        <p class="text-3xl font-nino font-bold text-left">
+            <span class="text-3xl font-bold text-primary">ხშირად დასმული</span>
+            <span class="text-3xl font-bold text-black"> შეკითხვები</span>
+        </p>
+
+        <div class="my-[3vh]">
+            for _, faq := range Faq {
+                <div    class="group pb-5 rounded"
+                        tabindex={ faq.Slug } 
+                        x-data='{ show: false }'
+                        @click.outside='show = false'>
+
+                    <label  @click='show = !show'
+                            class="cursor-pointer relative flex items-center justify-between bg-gray-100 px-4 py-4 pr-10 text-black">
+                        <div> { faq.Question } </div>
+
+                        <div :class='show ? "-rotate-180" : ""'
+                             class="text-large flex h-8 w-8 transform items-center justify-center rounded-full border border-gray-700 mob:border-0 mob:w-5 mob:text-3xl">
+                            
+                            @icons.DownToggleArrow()
+                        </div>
+                    </label>
+
+                    <div x-cloak x-collapse x-show='show' class="ease overflow-hidden bg-primary px-4 transition duration-500 max-h-[500px]">
+                        <p  class="py-7 text-justify text-white"> { faq.Answer } </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

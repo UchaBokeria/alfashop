@@ -1,0 +1,26 @@
+package view
+
+import "main/internal/model"
+
+templ Company(pages []model.Company, page model.Company) {
+    <div class="w-full flex flex-wrap gap-[50px] relative"
+         x-data="{ scrolled: false }" @scroll.window="scrolled = window.scrollY > 100">
+
+        <div class="flex flex-col gap-5 w-[350px] h-[400px] p-5 shadow-lg rounded mob:!static mob:!min-h-0 mob:!h-auto min-h-[600px] mob:!w-full"
+             :class='scrolled ? "fixed top-[50px] " : "absolute top-0"'>
+
+            for _, page := range pages {
+                <p  class="w-full cursor-pointer text-primary font-deja text-lg"
+                    hx-get={ "/company/" + page.Path } hx-push-url={ "/company/" + page.Path}
+                    hx-target="#Content" hx-swap="innerHTML show:window:top"
+                >
+                {page.Name}
+            </p>
+            }
+        </div>
+
+        <div class="w-[calc(100%-350px-50px)] px-10 ml-[400px] mob:!w-[100vw] mob:!ml-0">
+            @Pager(page)
+        </div>
+    </div>
+}

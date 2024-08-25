@@ -1,0 +1,138 @@
+package ui
+
+import "main/internal/icons"
+
+
+import(
+    "fmt"
+	"reflect"
+    "strconv"
+)
+
+type SelectDataT struct {
+    Key string
+    Value string
+}
+
+type SelectConf struct {
+    Color string
+    Data []SelectDataT
+    For string
+    Default string
+    Placeholder string
+}
+
+func SelectDataFormatter(dataSource interface{}) []SelectDataT {
+    return SelectDataCustomFormatter(dataSource, "Name", "ID")
+}
+
+func SelectDataCustomFormatter(dataSource interface{}, key string, val string) []SelectDataT {
+    value := reflect.ValueOf(dataSource)
+	if value.Kind() != reflect.Slice {
+		 _ = fmt.Errorf("expected a slice, got %s", value.Kind())
+	}
+
+	var formatted []SelectDataT
+
+	for i := 0; i < value.Len(); i++ {
+		item := value.Index(i).Interface()
+
+		v := reflect.ValueOf(item)
+		nameField := v.FieldByName(key)
+		idField := v.FieldByName(val)
+
+
+		// Ensure the fields exist and are of the correct type
+		if !nameField.IsValid() || !idField.IsValid() {
+			 _ = fmt.Errorf("item does not have the expected fields")
+		}
+
+		if nameField.Kind() != reflect.String || idField.Kind() != reflect.Int {
+			 _ = fmt.Errorf("incorrect field types")
+		}
+
+		var idStr string
+		switch idField.Kind() {
+            case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+                idStr = strconv.Itoa(int(idField.Int()))
+            case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+                idStr = strconv.Itoa(int(idField.Uint()))
+            default:
+                _ = fmt.Errorf("incorrect field type for ID, expected int or uint, got %s", idField.Kind())
+		}
+
+		formatted = append(formatted, SelectDataT{
+			Key:   nameField.String(),
+			Value: idStr,
+		})
+	}
+    return formatted
+}
+
+script SelectScript(SelectConfig SelectConf) {
+    if(!window.selector) window.selector = {}
+    var counter = Object.keys(window.selector).length
+    window.selector[SelectConfig.For] = {}
+    window.selector[SelectConfig.For].counter = counter
+    window.selector[SelectConfig.For].valuer = document.querySelector("#"+SelectConfig.For)
+    window.selector[SelectConfig.For].container = document.querySelector("#"+SelectConfig.For + "-select-container")
+    window.selector[SelectConfig.For].label = document.querySelector("#"+SelectConfig.For + "-select-label")
+    window.selector[SelectConfig.For].placeholder = document.querySelector("#"+SelectConfig.For + "-select-placeholder")
+    window.selector[SelectConfig.For].dropdownIcon = document.querySelector("#"+SelectConfig.For + "-select-dropdownIcon")
+    window.selector[SelectConfig.For].Toggler = document.querySelector("#"+SelectConfig.For + "-Toggler")
+    window.selector[SelectConfig.For].dropdown = document.querySelector("#"+SelectConfig.For + "-select-dropdown")
+    window.selector[SelectConfig.For].items = document.querySelectorAll("#"+SelectConfig.For + "-select-dropdown div label")
+    
+    window.selector[SelectConfig.For].container.style.zIndex = (55 - window.selector[SelectConfig.For].counter).toString()
+    window.selector[SelectConfig.For].container.style.zIndex = (55 - window.selector[SelectConfig.For].counter).toString()
+
+    window.selector[SelectConfig.For].items.forEach(each => {
+        each.addEventListener("click", event => {
+            let key = event.target.getAttribute("data-key")
+            let value = event.target.getAttribute("data-value")
+            window.selector[SelectConfig.For].valuer.value = value
+            window.selector[SelectConfig.For].placeholder.innerHTML = key
+            window.selector[SelectConfig.For].items.forEach(e => e.previousElementSibling.checked = false)
+            event.target.previousElementSibling.checked = true
+            window.selector[SelectConfig.For].label.click()
+            window.selector[SelectConfig.For].valuer.dispatchEvent(new Event('change'))
+        })
+    })
+    document.addEventListener("click", event => {
+        console.log(window.selector[SelectConfig.For].container)
+        if(!window.selector[SelectConfig.For].container.contains(event.target)) {
+            window.selector[SelectConfig.For].Toggler.checked = false
+        }
+    })
+}
+
+templ Select(SelectConfig SelectConf) {
+    <div    class="select-container relative flex flex-col gap-2 min-w-[300px] mob:!min-w-[250px]" id={SelectConfig.For + "-select-container"}>
+        <label  class={"cursor-pointer w-full flex justify-between items-center px-5 py-2 rounded-xl relative bg-" + SelectConfig.Color}
+                for={ SelectConfig.For + "-Toggler" } id={SelectConfig.For + "-select-label"} >
+            <p class="font-poppins" id={SelectConfig.For + "-select-placeholder"} > 
+                { SelectConfig.Placeholder } </p>
+
+            <div class="w-8" id={SelectConfig.For + "-select-dropdownIcon"} >
+                @icons.DownToggleArrow()
+            </div>
+        </label>
+
+        <input type="checkbox" id={ SelectConfig.For + "-Toggler" } class="peer hidden" />
+
+        <div class={"absolute top-[55px] w-full group rounded-xl flex flex-col overflow-hidden max-h-[0] peer-checked:max-h-[30vh] peer-checked:py-2 peer-checked:overflow-y-auto bg-" + SelectConfig.Color}
+             id={SelectConfig.For + "-select-dropdown"} >
+            for index, data := range SelectConfig.Data {
+                <div class="w-full flex jutify-start items-center" tabindex={strconv.Itoa(index)}>
+                    <input type="radio" id={ SelectConfig.For + "-item-" + strconv.Itoa(index) } class="peer hidden" checked?={SelectConfig.Default == data.Value} />
+
+                    <label  class="cursor-pointer py-2 px-5 h-full w-full peer-checked:bg-[#21569e] peer-checked:text-white hover:text-white hover:bg-[#21569e]"
+                            for={ SelectConfig.For + "-item-" + strconv.Itoa(index) } data-value={data.Value}  data-key={data.Key} >
+                            { data.Key }
+                    </label>
+                </div>
+            }
+        </div>
+        @SelectScript(SelectConfig)
+    </div>
+}
