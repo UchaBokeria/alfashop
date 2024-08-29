@@ -37,7 +37,7 @@ func Default() *DBConfig {
 }
 
 func Connect(config *DBConfig) {
-	// connStr := "postgresql://Ravenol_owner:Ov9nAT1lNftb@ep-shy-paper-a2e1ldcp.eu-central-1.aws.neon.tech/Ravenol?sslmode=require"
+	// connStr := "postgresql://alfashop_owner:Ov9nAT1lNftb@ep-shy-paper-a2e1ldcp.eu-central-1.aws.neon.tech/alfashop?sslmode=require"
 	// dbs, err := sql.Open("postgres", connStr)
 
 	// if err != nil {

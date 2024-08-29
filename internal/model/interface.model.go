@@ -58,6 +58,7 @@ type Interface_contact struct {
 	ShortDesc      string
 	LocationLink   string
 	LocationIframe string
+	Copyright      string
 }
 
 type Social_media struct {

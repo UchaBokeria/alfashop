@@ -13,15 +13,15 @@ var Interfaces = []model.Interface{
 		Slug: "configuration",
 		Presentation: `<h2 class="text-4xl text-center font-semibold font-nino text-primary">
             კეთილი იყოს თქვენი მობრძანება
-            <b class="font-bold text-5xl font-poppins">RAVENOL</b>-ში
+            <b class="font-bold text-5xl font-poppins">alfashop</b>-ში
         </h2>
 
-        <p class="w-[80%] ml-[10%] text-center text-primary py-10  font-arial">როგორც ავტომობილების პრემიუმ საპოხი მასალების და სითხეების მწარმოებელი და მიმწოდებელი, ჩვენ გთავაზობთ გადაწყვეტას ყველა საჭიროებისთვის RAVENOL-ის პროდუქტებით</p>
+        <p class="w-[80%] ml-[10%] text-center text-primary py-10  font-arial">როგორც ავტომობილების პრემიუმ საპოხი მასალების და სითხეების მწარმოებელი და მიმწოდებელი, ჩვენ გთავაზობთ გადაწყვეტას ყველა საჭიროებისთვის alfashop-ის პროდუქტებით</p>
     
         <div class="absolute w-[100vw] ml-[-200px] bg-[#D7E3F4] px-[200px] py-[3rem] flex flex-wrap  justify-start items-start ">
             <div class="w-[60%] flex justify-start items-start">
                 <video  class="w-full"
-                        src="https://www.ravenol.de/storage/app/media/video/RAVENOL_Corporate_Film.de.mp4"
+                        src="https://www.alfashop.de/storage/app/media/video/alfashop_Corporate_Film.de.mp4"
                         muted
                         controls="controls" 
                         autoplay="autoplay"/>

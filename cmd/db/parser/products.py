@@ -10,41 +10,41 @@ from googletrans import Translator
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 
-BaseUrl = "https://www.ravenol.de/de/produkt"
+BaseUrl = "https://www.alfashop.de/de/produkt"
 # InternalUploadUrl = "http://localhost:3000/upload/"
 
 Categories = [
-    "https://www.ravenol.de/de/produkt/motorenoel/classic-motorenoel",
-    "https://www.ravenol.de/de/produkt/motorenoel/2-takt-motorenoel",
-    "https://www.ravenol.de/de/produkt/motorenoel/4-takt-motorenoel",
-    "https://www.ravenol.de/de/produkt/motorenoel/motoroel-fuer-landwirtsch-fzg-und-baumaschinen",
-    "https://www.ravenol.de/de/produkt/motorenoel/marine-motoroel",
-    "https://www.ravenol.de/de/produkt/motorenoel/sonstiges-motorenoel",
-    "https://www.ravenol.de/de/produkt/motorenoel/pkw-motorenoel",
-    "https://www.ravenol.de/de/produkt/motorenoel/lkw-motorenoel",
-    "https://www.ravenol.de/de/produkt/motorenoel/motorrad-motorenoel",
+    "https://www.alfashop.de/de/produkt/motorenoel/classic-motorenoel",
+    "https://www.alfashop.de/de/produkt/motorenoel/2-takt-motorenoel",
+    "https://www.alfashop.de/de/produkt/motorenoel/4-takt-motorenoel",
+    "https://www.alfashop.de/de/produkt/motorenoel/motoroel-fuer-landwirtsch-fzg-und-baumaschinen",
+    "https://www.alfashop.de/de/produkt/motorenoel/marine-motoroel",
+    "https://www.alfashop.de/de/produkt/motorenoel/sonstiges-motorenoel",
+    "https://www.alfashop.de/de/produkt/motorenoel/pkw-motorenoel",
+    "https://www.alfashop.de/de/produkt/motorenoel/lkw-motorenoel",
+    "https://www.alfashop.de/de/produkt/motorenoel/motorrad-motorenoel",
 
-    "https://www.ravenol.de/de/produkt/getriebeoel/getriebeoel-fur-automatikgetriebe",
-    "https://www.ravenol.de/de/produkt/getriebeoel/getriebeoele-fur-schaltgetriebe-und-antriebsachsen",
-    "https://www.ravenol.de/de/produkt/getriebeoel/marine-getriebeol",
+    "https://www.alfashop.de/de/produkt/getriebeoel/getriebeoel-fur-automatikgetriebe",
+    "https://www.alfashop.de/de/produkt/getriebeoel/getriebeoele-fur-schaltgetriebe-und-antriebsachsen",
+    "https://www.alfashop.de/de/produkt/getriebeoel/marine-getriebeol",
 
-    "https://www.ravenol.de/de/produkt/kuehlerfrostschutz",
-    "https://www.ravenol.de/de/produkt/additive",
-    "https://www.ravenol.de/de/produkt/bremsflussigkeit",
-    "https://www.ravenol.de/de/produkt/fahrzeugpflege-reiniger",
-    "https://www.ravenol.de/de/produkt/winterchemie-zubehoer",
+    "https://www.alfashop.de/de/produkt/kuehlerfrostschutz",
+    "https://www.alfashop.de/de/produkt/additive",
+    "https://www.alfashop.de/de/produkt/bremsflussigkeit",
+    "https://www.alfashop.de/de/produkt/fahrzeugpflege-reiniger",
+    "https://www.alfashop.de/de/produkt/winterchemie-zubehoer",
 
-    "https://www.ravenol.de/de/produkt/hydraulikoel/pkw-hydraulikoel",
-    "https://www.ravenol.de/de/produkt/hydraulikoel/motorrad-hydraulikoel",
-    "https://www.ravenol.de/de/produkt/hydraulikoel/hydraulikole-fur-landw-fzg-und-baumaschinen",
-    "https://www.ravenol.de/de/produkt/hydraulikoel/marine-hydraulikoel",
-    "https://www.ravenol.de/de/produkt/hydraulikoel/sonstiges-hydraulikoel",
+    "https://www.alfashop.de/de/produkt/hydraulikoel/pkw-hydraulikoel",
+    "https://www.alfashop.de/de/produkt/hydraulikoel/motorrad-hydraulikoel",
+    "https://www.alfashop.de/de/produkt/hydraulikoel/hydraulikole-fur-landw-fzg-und-baumaschinen",
+    "https://www.alfashop.de/de/produkt/hydraulikoel/marine-hydraulikoel",
+    "https://www.alfashop.de/de/produkt/hydraulikoel/sonstiges-hydraulikoel",
     
-    "https://www.ravenol.de/de/produkt/industrieoel",
-    "https://www.ravenol.de/de/produkt/fette",
-    "https://www.ravenol.de/de/produkt/alle-werbeartikel/",
-    "https://www.ravenol.de/de/produkt/zubehoer",
-    "https://www.ravenol.de/de/produkt/sagekettenol"
+    "https://www.alfashop.de/de/produkt/industrieoel",
+    "https://www.alfashop.de/de/produkt/fette",
+    "https://www.alfashop.de/de/produkt/alle-werbeartikel/",
+    "https://www.alfashop.de/de/produkt/zubehoer",
+    "https://www.alfashop.de/de/produkt/sagekettenol"
 ]
 
 Products = []
@@ -204,7 +204,7 @@ for CategoryID, Category in enumerate(Categories):
                 imageTitle = image.get("data-title")
                 img = ProductHtml.select_one("#content [data-title='" + imageTitle + "'] img")
 
-                # https://www.ravenol.de/storage/app/uploads/public/d0f/2b5/96a/thumb__600_0_0_0_crop.jpg
+                # https://www.alfashop.de/storage/app/uploads/public/d0f/2b5/96a/thumb__600_0_0_0_crop.jpg
                 imgSrc = img.get("src").replace("__100_", "__600_")
                 print(imgSrc)
                 response = request(imgSrc)
@@ -214,7 +214,7 @@ for CategoryID, Category in enumerate(Categories):
                     print("Product " + Title + " Failed To Download " + imgSrc, response.status_code)
                 else:
                     basename, extension = os.path.splitext(imgSrc)
-                    fileName = basename.replace("https://www.ravenol.de/storage/app/uploads/public/", "").replace("/", "-") + extension
+                    fileName = basename.replace("https://www.alfashop.de/storage/app/uploads/public/", "").replace("/", "-") + extension
 
                     with open("./public/uploads/products/images/" + fileName, "wb") as file:
                         file.write(response.content)
@@ -277,12 +277,12 @@ for CategoryID, Category in enumerate(Categories):
 
             # PDF
             pdfURL = ProductHtml.select_one("#content > div > a").get("href")
-            # print("https://www.ravenol.de" + pdfURL)
-            pdfResponse = request("https://www.ravenol.de" + pdfURL)
+            # print("https://www.alfashop.de" + pdfURL)
+            pdfResponse = request("https://www.alfashop.de" + pdfURL)
             pdf = f'''model.Files{opening}'''
 
             if pdfResponse.status_code != 200:
-                print("Product " + Title + " PDF -> Failed To Download " + "https://www.ravenol.de" + pdfURL, pdfResponse.status_code)
+                print("Product " + Title + " PDF -> Failed To Download " + "https://www.alfashop.de" + pdfURL, pdfResponse.status_code)
             else:
                 basename, extension = os.path.splitext(pdfURL)
                 parts = basename.split("/")

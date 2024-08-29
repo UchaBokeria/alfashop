@@ -6,21 +6,21 @@ import (
 
 var Automobile = []model.Category_filters{
 	{
-		Name: "Choose a Range",
-		Slug: "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
-			{Name: "Ravenol Lube", Key: "Ravenol-lube", Value: "Ravenol Lube"},
+			{Name: "alfashop Lube", Key: "alfashop-lube", Value: "alfashop Lube"},
 			{Name: "Galaxy Compettion", Key: "galaxy-competition", Value: "Galaxy Compettion"},
 			{Name: "Collection Lubes", Key: "collection-lubes", Value: "Collection Lubes"},
-			{Name: "Ravenol VX Premium", Key: "Ravenol-vx-premium", Value: "Ravenol VX Premium"},
-			{Name: "Ravenol VX", Key: "Ravenol-vx", Value: "Ravenol VX"},
-			{Name: "Ravenol Pro", Key: "Ravenol-pro", Value: "Ravenol Pro"},
+			{Name: "alfashop VX Premium", Key: "alfashop-vx-premium", Value: "alfashop VX Premium"},
+			{Name: "alfashop VX", Key: "alfashop-vx", Value: "alfashop VX"},
+			{Name: "alfashop Pro", Key: "alfashop-pro", Value: "alfashop Pro"},
 		},
 	},
 	{
-		Name: "2Page",
-		Slug: "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Synthetic 100%", Key: "synthetic-100", Value: "Synthetic 100%"},
@@ -31,8 +31,8 @@ var Automobile = []model.Category_filters{
 		},
 	},
 	{
-		Name: "Viscosity",
-		Slug: "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "30", Key: "30", Value: "30"},
@@ -55,8 +55,8 @@ var Automobile = []model.Category_filters{
 		},
 	},
 	{
-		Name: "Engine",
-		Slug: "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "4-Stoke", Key: "4-stoke", Value: "4-Stoke"},
@@ -64,8 +64,8 @@ var Automobile = []model.Category_filters{
 		},
 	},
 	{
-		Name: "Packaging",
-		Slug: "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "60L Barrel", Key: "60l-barrel", Value: "60L Barrel"},
@@ -85,8 +85,8 @@ var Automobile = []model.Category_filters{
 
 var MotoQuadKarting = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "4 Stoke Motorcycle Lubes", Key: "4-stoke-motorcycle-lubes", Value: "4 Stoke Motorcycle Lubes"},
@@ -101,8 +101,8 @@ var MotoQuadKarting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Synthetic 100%", Key: "synthetic-100", Value: "Synthetic 100%"},
@@ -113,8 +113,8 @@ var MotoQuadKarting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "4-Stoke", Key: "4-stoke", Value: "4-Stoke"},
@@ -122,8 +122,8 @@ var MotoQuadKarting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "10W40", Key: "10w40", Value: "10W40"},
@@ -138,8 +138,8 @@ var MotoQuadKarting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "1L Can", Key: "1l-can", Value: "1L Can"},
@@ -158,8 +158,8 @@ var MotoQuadKarting = []model.Category_filters{
 
 var TransportHeavyEquipment = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Premium Mineral Lubes", Key: "premium-mineral-lubes", Value: "Premium Mineral Lubes"},
@@ -171,8 +171,8 @@ var TransportHeavyEquipment = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Synthetic 100%", Key: "synthetic-100", Value: "Synthetic 100%"},
@@ -183,8 +183,8 @@ var TransportHeavyEquipment = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "10", Key: "10", Value: "10"},
@@ -200,16 +200,16 @@ var TransportHeavyEquipment = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "4Stoke", Key: "4stoke", Value: "4Stoke"},
 		},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "5L Can", Key: "5l-can", Value: "5L Can"},
@@ -228,8 +228,8 @@ var TransportHeavyEquipment = []model.Category_filters{
 
 var Farming = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Multifunctional Lubes", Key: "multifunctional-lubes", Value: "Multifunctional Lubes"},
@@ -241,8 +241,8 @@ var Farming = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Synthetic 100%", Key: "synthetic-100", Value: "Synthetic 100%"},
@@ -253,8 +253,8 @@ var Farming = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "10W30", Key: "10w30", Value: "10W30"},
@@ -266,8 +266,8 @@ var Farming = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "4Stoke", Key: "4stoke", Value: "4Stoke"},
@@ -275,8 +275,8 @@ var Farming = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "20L Barrel", Key: "20l-barrel", Value: "20L Barrel"},
@@ -292,8 +292,8 @@ var Farming = []model.Category_filters{
 
 var GearboxesBeamAxles = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Automatic Transmission Lubes", Key: "automatic-transmission-lubes", Value: "Automatic Transmission Lubes"},
@@ -305,8 +305,8 @@ var GearboxesBeamAxles = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Synthetic 100%", Key: "synthetic-100", Value: "Synthetic 100%"},
@@ -316,8 +316,8 @@ var GearboxesBeamAxles = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "90", Key: "90", Value: "90"},
@@ -332,16 +332,16 @@ var GearboxesBeamAxles = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "4-Stoke", Key: "4-stoke", Value: "4-Stoke"},
 		},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "2L Can", Key: "2l-can", Value: "2L Can"},
@@ -357,8 +357,8 @@ var GearboxesBeamAxles = []model.Category_filters{
 
 var UpkeepAndCleaning = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Upkeep", Key: "upkeep", Value: "Upkeep"},
@@ -368,26 +368,26 @@ var UpkeepAndCleaning = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
-		Options:        []model.Category_filters_option{},
+		Options:          []model.Category_filters_option{},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
-		Options:        []model.Category_filters_option{},
+		Options:          []model.Category_filters_option{},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
-		Options:        []model.Category_filters_option{},
+		Options:          []model.Category_filters_option{},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "500ML Spray 6A", Key: "500ml-spray-6a", Value: "500ML Spray 6A"},
@@ -425,8 +425,8 @@ var UpkeepAndCleaning = []model.Category_filters{
 
 var SailingAndYachting = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "2-stoke engine lubes", Key: "2-stoke-engine-lubes", Value: "2-stoke engine lubes"},
@@ -439,8 +439,8 @@ var SailingAndYachting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Synthetic 100%", Key: "synthetic-100", Value: "Synthetic 100%"},
@@ -450,8 +450,8 @@ var SailingAndYachting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "30", Key: "30", Value: "30"},
@@ -468,8 +468,8 @@ var SailingAndYachting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "2-stoke", Key: "2-stoke", Value: "2-stoke"},
@@ -477,8 +477,8 @@ var SailingAndYachting = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "5L Can", Key: "5l-can", Value: "5L Can"},
@@ -503,14 +503,14 @@ var SailingAndYachting = []model.Category_filters{
 
 var LightPlanes = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
-		Options:        []model.Category_filters_option{},
+		Options:          []model.Category_filters_option{},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Synthetic 100%", Key: "synthetic-100", Value: "Synthetic 100%"},
@@ -520,8 +520,8 @@ var LightPlanes = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "80", Key: "80", Value: "80"},
@@ -529,8 +529,8 @@ var LightPlanes = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "2-stoke", Key: "2-stoke", Value: "2-stoke"},
@@ -538,8 +538,8 @@ var LightPlanes = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "2L Can", Key: "2l-can", Value: "2L Can"},
@@ -551,8 +551,8 @@ var LightPlanes = []model.Category_filters{
 
 var Specialities = []model.Category_filters{
 	{
-		Name:           "Choose a Range",
-		Slug:           "choose-a-range",
+		Name:             "Choose a Range",
+		Slug:             "choose-a-range",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Cooling fluids", Key: "cooling-fluids", Value: "Cooling fluids"},
@@ -566,8 +566,8 @@ var Specialities = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "2Page",
-		Slug:           "2page",
+		Name:             "2Page",
+		Slug:             "2page",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "Mineral", Key: "mineral", Value: "Mineral"},
@@ -576,8 +576,8 @@ var Specialities = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Viscosity",
-		Slug:           "viscosity",
+		Name:             "Viscosity",
+		Slug:             "viscosity",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "220", Key: "220", Value: "220"},
@@ -585,14 +585,14 @@ var Specialities = []model.Category_filters{
 		},
 	},
 	{
-		Name:           "Engine",
-		Slug:           "engine",
+		Name:             "Engine",
+		Slug:             "engine",
 		Default_value_id: nil,
-		Options:        []model.Category_filters_option{},
+		Options:          []model.Category_filters_option{},
 	},
 	{
-		Name:           "Packaging",
-		Slug:           "packaging",
+		Name:             "Packaging",
+		Slug:             "packaging",
 		Default_value_id: nil,
 		Options: []model.Category_filters_option{
 			{Name: "5L Can", Key: "5l-can", Value: "5L Can"},

@@ -137,10 +137,10 @@ var Seed = []model.Files{
 		TypeID:     3, // Image type ID
 	},
 	{
-		Name:       "Ravenol",
-		Original:   "Ravenol",
+		Name:       "alfashop",
+		Original:   "alfashop",
 		Location:   "local",
-		Path:       "/assets/videos/Ravenol.mp4",
+		Path:       "/assets/videos/alfashop.mp4",
 		Size:       1024 * 1024, // 1MB
 		Base64:     "",
 		Compressed: true,
@@ -327,10 +327,10 @@ var Seed = []model.Files{
 		TypeID:     2, // Image type ID
 	},
 	{
-		Name:       "docRavenol",
-		Original:   "docRavenol.pdf",
+		Name:       "docalfashop",
+		Original:   "docalfashop.pdf",
 		Location:   "local",
-		Path:       "/uploads/docRavenol.pdf",
+		Path:       "/uploads/docalfashop.pdf",
 		Size:       560, // 0.56 KB
 		Base64:     "",
 		Compressed: false,

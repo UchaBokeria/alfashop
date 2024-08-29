@@ -2175,6 +2175,12 @@ html{
       var(--handleoffsetcalculator) 0 0 3px var(--fallback-bc,oklch(var(--bc)/1)) inset;
 }
 
+.no-animation{
+  --btn-focus-scale: 1;
+  --animation-btn: 0;
+  --animation-input: 0;
+}
+
 .artboard.phone{
   width: 320px;
 }
@@ -2552,6 +2558,10 @@ html{
   margin-inline-start: auto;
 }
 
+.mt-0{
+  margin-top: 0px;
+}
+
 .mt-10{
   margin-top: 2.5rem;
 }
@@ -2815,6 +2825,10 @@ html{
 
 .h-\[5vh\]{
   height: 5vh;
+}
+
+.h-\[60\%\]{
+  height: 60%;
 }
 
 .h-\[6vh\]{
@@ -6982,6 +6996,11 @@ html{
 .hover\:bg-red-800:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(153 27 27 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-white:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .hover\:fill-white:hover{

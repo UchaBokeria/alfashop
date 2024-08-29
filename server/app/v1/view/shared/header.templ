@@ -22,19 +22,19 @@ templ Header(Interface model.Interface) {
 		
         <input class="hidden peer" type="checkbox" id="menu"/>
         <div class="flex justify-center items-center flex-grow gap-[40px] px-[40px] mob:hidden peer-checked:!flex peer-checked:flex-col mob:py-40 mob:!fixed mob:!top-[10px] mob:!left-[0]  mob:!w-[100vw] mob:!h-[100vh] mob:!flex-col peer-checked:fixed peer-checked:top-0 peer-checked:left-0 peer-checked:w-full peer-checked:h-full peer-checked:bg-[#21569e] peer-checked:z-[9999999] ">
-			// <div class="animated bounceInRight group rounded-lg cursor-pointer flex-col justify-center items-center flex-grow-0 flex-shrink-0 hidden mob:flex"
-			// 	@click="CopyToClipboard(Phone) && Toast('დაკოპირებულია')">
-            //     <div class="flex justify-center items-center flex-grow-0 flex-shrink-0 h-[39px] gap-[11px] px-[20px] pt-[15px] pb-3.5 rounded-lg bg-secondary">
-			// 		@icons.Phone()
+			<div class="animated bounceInRight group rounded-lg cursor-pointer flex-col justify-center items-center flex-grow-0 flex-shrink-0 hidden mob:flex"
+				@click="CopyToClipboard(Phone) && Toast('დაკოპირებულია')">
+                <div class="flex justify-center items-center flex-grow-0 flex-shrink-0 h-[39px] gap-[11px] px-[20px] pt-[15px] pb-3.5 rounded-lg bg-secondary">
+					@icons.Phone()
 
-            //         <button x-text="Phone" class="flex mt-[0.5%] text-[14px] leading-snug  font-bold text-black max-[1500px]:text-[10px]"/>
-			// 	</div>
-			// </div>
+                    <button x-text="Phone" class="flex mt-[0.5%] text-[14px] leading-snug  font-bold text-black max-[1500px]:text-[10px]"/>
+				</div>
+			</div>
 
 			<div class="flex justify-center items-center gap-x-[8%] max-[1500px]:gap-x-[4%] mob:!flex-col mob:!gap-5">
 				for _, Nav := range schemas.Routes {
 					<a {htmx.Link(Nav.Path)...} 
-                        class="cursor-pointer font-nino font-bold mt-2 space-x-1 text-md text-primary mob:hidden animated fadeIn transition-2s max-[1500px]:text-sm whitespace-nowrap">
+                        class="cursor-pointer font-nino font-bold mt-4 space-x-1 text-sm text-primary mob:hidden animated fadeIn transition-2s max-[1500px]:text-sm whitespace-nowrap">
 						{ Nav.Name }
 					</a>
 
@@ -48,20 +48,29 @@ templ Header(Interface model.Interface) {
 
 			<label class="animated bounceInLeft hidden cursor-pointer mob:flex"
                    for="menu">
+				<p class="text-white text-md font-bold">ავტორიზაცია</p>
+			</label>
+
+			<div class="animated bounceInRight z-10 hidden mob:flex ">
+				@LanguageChanger(Interface.Languages)
+			</div>
+			
+			<label class="animated bounceInLeft hidden cursor-pointer mob:flex"
+                   for="menu">
 				@icons.Close()
 			</label>
 		</div>
 
-		// <div class="animated bounceInRight group rounded-lg cursor-pointer flex flex-col justify-center items-center flex-grow-0 flex-shrink-0  mob:hidden"
-		// 	@click="CopyToClipboard(Phone) && Toast('დაკოპირებულია')">
-		// 	<div class="flex justify-center items-center flex-grow-0 flex-shrink-0 h-[39px] gap-[11px] px-[20px] pt-[15px] pb-3.5 rounded-md bg-primary max-[1500px]:px-[10px]">
-		// 		@icons.WhitePhone()
+        <div class="mob:hidden animated bounceInRight cursor-pointer rounded-box p-4 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-between gap-2 flex-grow-0 flex-shrink-0"
+			{htmx.Link("/login")...}>
+		    @icons.Person()
+			
+			<p class="font-arial font-semibold space-x-1 text-sm text-primary mob:hidden animated fadeIn transition-2s whitespace-nowrap">
+				ავტორიზაცია
+			</p>
+        </div>
 
-        //         <button x-text="Phone" class="flex mt-[0.5%] text-[14px] leading-snug  font-bold text-white max-[1500px]:text-[10px]"/>
-		// 	</div>
-		// </div>
-
-        <div class="animated bounceInRight">
+        <div class="mob:hidden animated bounceInRight">
 		    @LanguageChanger(Interface.Languages)
         </div>
 	</div>

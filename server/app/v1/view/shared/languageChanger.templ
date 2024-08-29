@@ -4,8 +4,15 @@ import "main/internal/model"
 
 templ LanguageChanger(languages []model.Languages) {
 	<div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
-		<div tabindex="0" role="button" class="btn m-1">GE</div>
-		<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box m-1 w-20 p-2 shadow relative">
+		<div tabindex="0" role="button" class="btn no-animation border-0 bg-white hover:bg-white m-1 w-20 relative ">
+			<img
+				alt={ languages[0].Name }
+				src={ languages[0].Icon.Path }
+				class=" h-[60%] rounded-box"
+			/>
+		</div>
+
+		<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box m-1 mt-0 w-20 p-2 shadow relative">
 			for _, lang := range languages {
 				<li class="h-10">
 					<img

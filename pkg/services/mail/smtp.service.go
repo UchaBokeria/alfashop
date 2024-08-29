@@ -10,13 +10,13 @@ import (
 
 type Config struct {
 	Subject string
-	Body string
-	To string
+	Body    string
+	To      string
 }
 
 func Send(config Config) (bool, error) {
-	to := mail.NewEmail("ravenol", config.To)
-	from := mail.NewEmail("ravenol", "ucha1bokeria@gmail.com")
+	to := mail.NewEmail("alfashop", config.To)
+	from := mail.NewEmail("alfashop", "ucha1bokeria@gmail.com")
 	message := mail.NewSingleEmail(from, config.Subject, to, "", config.Body)
 	client := sendgrid.NewSendClient(globals.Env.SENDGRID_API_KEY)
 	_, err := client.Send(message)

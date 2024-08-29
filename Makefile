@@ -25,11 +25,6 @@ air:
 	air
 
 
-.PHONY: kill-process
-kill-process:
-	@kill -15 $(lsof -ti:3000)
-
-
 
 # Production Server Commands
 .PHONY: build
@@ -90,3 +85,10 @@ env:
 
 	
 #
+
+.PHONY: postcmd
+postcmd:
+	make templ-clean
+	@kill -15 $(lsof -ti:3000)
+	@kill -15 $(lsof -ti:9999)
+	rm -rf ./tmp

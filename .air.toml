@@ -1,13 +1,13 @@
 root = "."
 testdata_dir = "testdata"
-tmp_dir = "build"
+tmp_dir = "tmp"
 
 [build]
   cmd = "go build -o bin/app ./cmd/app && curl http://localhost:9999/trigger"
   args_bin = []
   bin = "./bin/app"
   delay = 0
-  exclude_dir = ["bin", "", "public/uploads", "node_modules", "testdata", "cmd/utils"]
+  exclude_dir = ["bin", "", "public/uploads", "node_modules", "testdata", "cmd/utils", "tmp"]
   exclude_file = []
   exclude_regex = ["_test.go", ".*_templ.go", ".*_templ.txt"]
   exclude_unchanged = true
@@ -24,7 +24,7 @@ tmp_dir = "build"
   rerun_delay = 500
   send_interrupt = false
   stop_on_error = true
-  post_cmd = ["make templ-clean kill-process && kill -15 $(lsof -ti:9999)"]
+  post_cmd = ["make postcmd"]
 
 [color]
   app = ""
