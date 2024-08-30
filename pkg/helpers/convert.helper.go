@@ -27,6 +27,14 @@ func ToJson(data interface{}) string {
 	return string(bytes)
 }
 
+func GetPointedUInt(num int) *uint {
+	unum := uint(num)
+	return &unum
+}
+func GetPointedInt(num int) *int {
+	return &num
+}
+
 func ToSelect[T any](data []T, keyField string, valField string) ([]shared.SelectDataType, error) {
 	val := reflect.ValueOf(data)
 	if val.Kind() != reflect.Slice {

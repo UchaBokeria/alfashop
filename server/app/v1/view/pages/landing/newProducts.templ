@@ -34,7 +34,7 @@ templ NewProducts(Interface model.Interface) {
                         <img src={ Product.Pics[0].Path } class=" skew-x-[13deg] mob:!skew-x-0 w-[30%] object-fit" alt={Product.Name} />
 
                         <div class="w-[70%] skew-x-[13deg] mob:!skew-x-0 flex flex-col gap-2 justify-start items-start overflow-hidden">
-                            <p class="text-xs font-arial font-bold text-gray-500"> {Product.Category.Name} </p>
+                            <p class="text-xs font-arial font-bold text-gray-500"> {Product.Category[0].Name} </p>
                             <h4 class="text-xl w-full text-primary font-semibold"> {Product.Name} </h4>
                             <h4 class="text-xs w-[90%] line-clamp-4 text-ellipsis font-arial text-gray-500"> @templ.Raw(Product.Description) </h4>
                         </div>

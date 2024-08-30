@@ -14,13 +14,15 @@ templ LanguageChanger(languages []model.Languages) {
 
 		<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box m-1 mt-0 w-20 p-2 shadow relative">
 			for _, lang := range languages {
-				<li class="h-10">
-					<img
-						alt={ lang.Name }
-						src={ lang.Icon.Path }
-						class="object-fit h-full rounded-box"
-					/>
-				</li>
+				if lang.Slug != "ge" {
+					<li class="h-10">
+						<img
+							alt={ lang.Name }
+							src={ lang.Icon.Path }
+							class="object-fit h-full rounded-box"
+						/>
+					</li>
+				}
 			}
 		</ul>
 	</div>

@@ -28,27 +28,27 @@ var Languages = []model.Languages{
 
 var LanguageDictionary = []model.LanguageDictionary{
 	{
-		LanguageID: 1,
+		LanguageID: 4,
 		Key:        "NewsPageTitle",
 		Value:      "სიახლეები",
 	},
 	{
-		LanguageID: 2,
+		LanguageID: 5,
 		Key:        "NewsPageTitle",
 		Value:      "News",
 	},
 	{
-		LanguageID: 3,
+		LanguageID: 6,
 		Key:        "NewsPageTitle",
 		Value:      "სიახლეები",
 	},
 }
 
 func Language() {
-	for _, row := range Languages {
-		storage.DB.Create(&row)
+	for _, lang := range Languages {
+		storage.DB.Create(&lang)
 	}
-	for _, row := range LanguageDictionary {
-		storage.DB.Create(&row)
+	for _, dict := range LanguageDictionary {
+		storage.DB.Create(&dict)
 	}
 }

@@ -1,9 +1,10 @@
 package migration
 
-import "main/internal/model"
+import (
+	"main/internal/model"
+)
 
 var Models = []interface{}{
-
 	&model.Company{},
 	&model.Users{},
 	&model.Cities{},
@@ -29,7 +30,6 @@ var Models = []interface{}{
 	&model.Posts{},
 
 	&model.Products{},
-	&model.Product_properties{},
 
 	&model.Interface{},
 	&model.Interface_slideShow{},

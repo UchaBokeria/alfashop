@@ -49,8 +49,8 @@ func list(ctx *controller.Context, Filters *FiltersQuery) error {
 	query := storage.DB.Offset(offset).Limit(pageSize)
 
 	if Filters.Category != 0 {
-		CategoryID := Filters.Category
-		Where.CategoryID = CategoryID
+		// CategoryID := Filters.Category
+		// Where.CategoryID = CategoryID
 		query = query.Where(Where)
 	}
 

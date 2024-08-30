@@ -1,9 +1,9 @@
 package interfaces
 
 import (
-	"fmt"
 	"main/internal/model"
 	"main/pkg/storage"
+	"main/server/admin/repository"
 )
 
 var Interfaces = []model.Interface{
@@ -47,52 +47,36 @@ func Populate() {
 			Model(&row).
 			Association("Products").
 			Append(
-				FindByID[model.Products](1),
-				FindByID[model.Products](2),
-				FindByID[model.Products](3),
-				FindByID[model.Products](4),
-				FindByID[model.Products](5),
-				FindByID[model.Products](6),
-				FindByID[model.Products](7),
+				repository.FindByID[model.Products](1),
 			)
 
 		storage.DB.
 			Model(&row).
 			Association("News").
 			Append(
-				FindByID[model.Posts](4),
-				FindByID[model.Posts](3),
-				FindByID[model.Posts](2),
-				FindByID[model.Posts](1),
+				repository.FindByID[model.Posts](4),
+				repository.FindByID[model.Posts](3),
+				repository.FindByID[model.Posts](2),
+				repository.FindByID[model.Posts](1),
 			)
 
 		storage.DB.
 			Model(&row).
 			Association("Events").
 			Append(
-				FindByID[model.Posts](12),
-				FindByID[model.Posts](13),
-				FindByID[model.Posts](14),
-				FindByID[model.Posts](15),
+				repository.FindByID[model.Posts](12),
+				repository.FindByID[model.Posts](13),
+				repository.FindByID[model.Posts](14),
+				repository.FindByID[model.Posts](15),
 			)
 
 		storage.DB.
 			Model(&row).
 			Association("NewVideos").
 			Append(
-				FindByID[model.Files](14),
-				FindByID[model.Files](14),
+				repository.FindByID[model.Files](14),
+				repository.FindByID[model.Files](14),
 			)
 
 	}
-}
-
-func FindByID[T any](id int) *T {
-	modeler := new(T)
-	if err := storage.DB.Where("id = ?", id).First(modeler).Error; err != nil {
-		// return err
-		fmt.Print("Error finding existing assotiation ", modeler, " | with id -> ", id)
-	}
-
-	return modeler
 }
