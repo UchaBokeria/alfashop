@@ -46,7 +46,7 @@ templ Create(cities []shared.SelectDataType, shifts []shared.SelectDataType) {
 
 
                         <div x-data='{ value: "" }'>
-                        @shared.Select("create-shifts", "აირჩიე სამუშაო დრო", shifts)
+                            @shared.Select("create-shifts", "აირჩიე სამუშაო დრო", shifts)
                             <input class="hidden" name="Shifts" :value='value' />
                         </div>
 

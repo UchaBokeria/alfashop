@@ -1,0 +1,68 @@
+package categories
+
+import "main/server/admin/view/shared"
+
+// Name
+// Description
+// Public
+// Icon
+// Filters
+
+templ Create(ParentID string, visibilities []shared.SelectDataType) {
+    <form x-data='{tab: "general"}' class="w-full p-6"
+          hx-target="#AdminContent"
+          hx-post="/admin/categories"
+          hx-encoding="multipart/form-data">
+        // Tabs
+        <div class="w-full rounded-box bg-slate-100 flex gap-2">
+            if ParentID != "0" {
+                <p class="w-full text-xl font-semibold text-purple-500">ზეკატეგორია #{ParentID}</p>
+            }
+
+            <p @click='tab = "general"'
+               :class='tab == "general" && "bg-purple-500 text-white"'
+                class="btn border-0 rounded-box cursor-pointer p-2 font-semibold text-sm">
+                დეტალები
+            </p>
+            
+            // <p @click='tab = "filters"'
+            //    :class='tab == "filters" && "bg-purple-500 text-white"'
+            //     class="btn border-0 rounded-box cursor-pointer p-2 font-semibold text-sm">
+            //     ფილტრაცია
+            // </p>
+        </div>
+
+        // General properties tab
+        <div x-show='tab == "general"' class="w-full py-6 flex flex-col gap-6">
+            <input name="ParentID" value={ParentID} class="hidden" />
+
+            <div x-data='{value: ""}'>
+                @shared.Input("category-name", "დასახელება")
+                <input class="hidden" name="Name" :value='value' />
+            </div>
+
+            <div x-data='{value: ""}'>
+                @shared.Input("category-Description", "აღწერა")
+                <input class="hidden" name="Description" :value='value' />
+            </div>
+
+            <div x-data='{ value: "" }'>
+                @shared.Select("category-Public", "სტატუსი", visibilities)
+                <input class="hidden" name="Public" :value='value' />
+            </div>
+
+            @shared.Upload("category-icon-upload")
+            <input class="hidden" type="file" id="category-icon-upload" name="Icon" />
+        </div>
+
+        // actions
+        <div class="w-full py-2 flex gap-2">
+            <button type="submit" class="btn border-0 bg-primary text-sm text-white rounded-box p-2">შენახვა</button>
+            <button type="button" class="btn border-0 bg-red-500 text-sm text-white rounded-box p-2"
+                    hx-get={"/admin/categories/" + ParentID}
+                    hx-target="#category-outlet">
+                    გაუქმება
+            </button>
+        </div>
+    </form>
+}

@@ -2,7 +2,8 @@
 .PHONY: run
 run:
 	mkdir -p ./bin && chmod -R 777 ./public
-	make -j4 reload tailwind-dev templ-watch air
+	make tailwind-dev
+	make -j4 reload templ-watch air
 
 .PHONY: reload
 reload:
@@ -36,7 +37,7 @@ build:
 
 .PHONY: templ
 templ:
-	templ generate -keep-orphaned-files
+	TEMPL_EXPERIMENT=rawgo templ generate -keep-orphaned-files
 
 .PHONY: templ-clean
 templ-clean:

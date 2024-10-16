@@ -9,15 +9,16 @@ import (
 type Categories struct {
 	gorm.Model
 	ParentID        *int
-	Parent          *Categories `gorm:"foreignKey:ParentID;constraint: OnUpdate:CASCADE, OnDelete:SET NULL;"`
-	Level           int         `gorm:"not null"`
+	Parent          *Categories   `gorm:"foreignKey:ParentID;references:ID;constraint: OnUpdate:CASCADE, OnDelete:SET NULL;"`
+	Children        []*Categories `gorm:"foreignkey:ParentID"`
+	Level           int           `gorm:"not null"`
 	Name            string
 	Slug            string
 	Description     string
 	DescriptionHTML string
 	Public          bool
-	IconID          int
-	Icon            Files              `gorm:"constraint: OnUpdate:CASCADE, OnDelete:SET NULL;"`
+	IconID          *int
+	Icon            *Files             `gorm:"constraint: OnUpdate:CASCADE, OnDelete:SET NULL;"`
 	Filters         []Category_filters `gorm:"many2many:Category_filters_joins;constraint: OnUpdate:CASCADE, OnDelete:SET NULL;"`
 }
 

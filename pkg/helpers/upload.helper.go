@@ -11,6 +11,7 @@ import (
 	"mime/multipart"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type UploadResponse struct {
@@ -109,5 +110,5 @@ func GetFileExtension(file *multipart.FileHeader) string {
 			break
 		}
 	}
-	return extension
+	return strings.ToLower(extension)
 }

@@ -6,13 +6,12 @@ import (
 	"os"
 )
 
-
 func getFile(path string) string {
 	dat, err := os.ReadFile(path)
-    if err != nil {
+	if err != nil {
 		// fmt.Printf("files error: %T", err)
-        panic(err)
-    }
+		panic(err)
+	}
 	return string(dat)
 }
 
@@ -27,8 +26,15 @@ var Seed = []model.Company{
 		Name: "წესები და პირობები",
 		Body: getFile("cmd/db/seed/interfaces/terms.txt"),
 	},
+	{
+		Path: "terms",
+		Name: "წესები და პირობები",
+		Body: getFile("cmd/db/seed/interfaces/terms.txt"),
+	},
 }
 
 func Populate() {
-	for _, row := range Seed { storage.DB.Create(&row) }
+	for _, row := range Seed {
+		storage.DB.Create(&row)
+	}
 }

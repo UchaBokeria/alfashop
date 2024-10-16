@@ -30,7 +30,8 @@ script Auth(path string) {
         if(CurrentUserCreds.Email && CurrentUserCreds.Token) {
             document.cookie = `user=${CurrentUserCreds.Email}; ${CurrentUserCreds.Expires}; path=/`;
             document.cookie = `token=${CurrentUserCreds.Token}; ${CurrentUserCreds.Expires}; path=/`;
-            window.location.href = '/admin'
+            // window.location.href = '/admin'
+            // ^ redirect to admin causes infinite loop
         }
     } catch(error) {
         // return console.log(error)

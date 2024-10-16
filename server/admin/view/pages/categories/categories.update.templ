@@ -1,0 +1,76 @@
+package categories
+
+import "main/server/admin/view/shared"
+import "main/pkg/view/alpine"
+import "main/internal/model"
+import "main/pkg/helpers"
+
+templ Update(category model.Categories, visibilities []shared.SelectDataType) {
+    <form x-data='{tab: "general"}' class="w-full p-6"
+          hx-target="#AdminContent"
+          hx-put={"/admin/categories/" + helpers.Ustring(category.ID)}
+          hx-encoding="multipart/form-data" >
+
+        // Tabs
+        <div class="w-full rounded-box bg-slate-100 flex gap-2">
+            if category.ParentID != nil {
+                <p class="w-full text-xl font-semibold text-purple-500">
+                    ზეკატეგორია #{category.Parent.Name}
+                </p>
+                        
+                <input class="hidden" name="ParentID" value={helpers.PtintToString(category.ParentID)} />
+                <input class="hidden" name="ParentLevel" value={helpers.String(category.Parent.Level)} />
+            }
+
+            <p @click='tab = "general"'
+               :class='tab == "general" && "bg-purple-500 text-white"'
+                class="btn border-0 rounded-box cursor-pointer p-2 font-semibold text-sm">
+                დეტალები
+            </p>
+            
+            <p @click='tab = "filters"'
+               :class='tab == "filters" && "bg-purple-500 text-white"'
+                class="btn border-0 rounded-box cursor-pointer p-2 font-semibold text-sm">
+                ფილტრაცია
+            </p>
+        </div>
+
+        // General properties tab
+        <div x-show='tab == "general"' 
+             x-data={alpine.New(category)}
+             class="w-full py-6 flex flex-col gap-6">
+            <div x-data='{value: Name}'>
+                @shared.Input("category-name", "დასახელება")
+                <input class="hidden" name="Name" :value='value' />
+            </div>
+
+            <div x-data='{value: Description}'>
+                @shared.Input("category-Description", "აღწერა")
+                <input class="hidden" name="Description" :value='value' />
+            </div>
+
+            <div x-data='{value: Public}'>
+                @shared.Select("category-Public", "სტატუსი", visibilities)
+                <input class="hidden" name="Public" :value='value' />
+            </div>
+
+            <div class="w-full h-64 relative rounded-box">
+                <img x-bind:src="Icon.Path" alt="Name"
+                     class="w-full object-fit h-full absolute top-0 left-0 " />
+
+                @shared.Upload("category-icon-upload")
+                <input class="hidden" type="file" id="category-icon-upload" name="Icon" />
+            </div>
+        </div>
+
+        // actions
+        <div class="w-full py-2 flex gap-2">
+            <button type="submit" class="btn border-0 bg-primary text-sm text-white rounded-box p-2">შენახვა</button>
+            <button type="button" class="btn border-0 bg-red-500 text-sm text-white rounded-box p-2"
+                    hx-get={"/admin/categories/update" + helpers.Ustring(category.ID)}
+                    hx-target="#category-outlet">
+                    გაუქმება
+            </button>
+        </div>
+    </form>
+}

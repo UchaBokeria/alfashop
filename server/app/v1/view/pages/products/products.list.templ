@@ -1,16 +1,18 @@
 package view
 
+import "main/internal/icons"
+import "main/pkg/helpers"
+import "main/pkg/view/htmx"
+import "main/pkg/view/alpine"
+
 import(
-    "strconv"
     "html"
     "main/internal/model"
 )
 
 templ ProductList(Page string, Searcher string, CategoryID string, Products []model.Products) {
     for _, Product := range Products {
-        <div class="cursor-pointer w-[290px] flex flex-col justify-between gap-5 py-4 px-5 shadower rounded-lg mob:w-full mob:justify-center"
-            hx-get={ "/products/" + strconv.Itoa(int(Product.ID)) } hx-swap="innerHTML show:window:top"
-            hx-push-url={ "/products/" + strconv.Itoa(int(Product.ID)) } hx-target="#Content" hx-indicator=".Loading">
+        <div class="relative w-[290px] flex flex-col justify-between gap-5 py-4 px-5 shadower rounded-lg mob:w-full mob:justify-center">
 
             <img src={Product.Pics[0].Path} class="m-auto h-auto w-[127px] object-fit mob:h-half mob:w-half" />
 
@@ -18,7 +20,15 @@ templ ProductList(Page string, Searcher string, CategoryID string, Products []mo
 
             <div class="w-full font-arial h-[90px] overflow-hidden line-clamp-3 text-gray-600"> @templ.Raw(html.UnescapeString(Product.DescriptionHtml)) </div>
 
-            <button class="w-full text-right text-primary font-nino font-bold"> გაიგე მეტი </button>
+            <div class="cursor-pointer w-full flex justify-end absolute bottom-14 right-5 z-111"
+                 x-data @click={"globalThis.cart.add(" + alpine.New(Product) + ")"}> 
+                @icons.CartAdd("#000")
+            </div>
+
+            <button class="cursor-pointer w-full text-right text-primary font-nino font-bold"
+                    { htmx.Link("/products/" + helpers.Ustring(Product.ID))...}> 
+                    გაიგე მეტი
+            </button>
         </div>
     }
     <div

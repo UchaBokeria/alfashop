@@ -1,0 +1,45 @@
+package shared
+
+import "main/internal/model"
+
+templ LanguageSwitch(position string, languages []model.Languages) {
+	<div class={"dropdown dropdown-hover dropdown-start bg-inherit rounded-badge " + " dropdown-" + position}>
+		<div tabindex="0" role="button" class="h-12 relative ">
+			<img
+				alt={ languages[0].Name }
+				src={ languages[0].Icon.Path }
+				class="p-2  h-[100%] rounded-box"
+			/>
+		</div>
+
+		<ul tabindex="0" class="dropdown-content menu bg-base-100 hover:bg-base-100 mx-[-10px] mt-[1px] rounded-box w-20  relative">
+			for _, lang := range languages {
+				if lang.Slug != "ge" {
+					<li class="h-10">
+						<img
+							alt={ lang.Name }
+							src={ lang.Icon.Path }
+							class="object-fit h-full rounded-box"
+						/>
+					</li>
+				}
+			}
+		</ul>
+	</div>
+}
+
+templ LanguageSwitchTop(languages []model.Languages) {
+	@LanguageSwitch("top", languages)
+}
+
+templ LanguageSwitchBottom(languages []model.Languages) {
+	@LanguageSwitch("bottom", languages)
+}
+
+templ LanguageSwitchLeft(languages []model.Languages) {
+	@LanguageSwitch("left", languages)
+}
+
+templ LanguageSwitchRight(languages []model.Languages) {
+	@LanguageSwitch("right", languages)
+}

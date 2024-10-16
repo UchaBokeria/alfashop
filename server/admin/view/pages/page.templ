@@ -10,6 +10,7 @@ type NavsType struct {
 
 var Navs []NavsType = []NavsType{
     { Path: "/setting/contacts",  Slug: "interface", Name: "ინტერფეისი" },
+    { Path: "/categories", Slug: "categories",  Name: "კატეგორიები" },
     { Path: "/products", Slug: "products",  Name: "პროდუქტები" },
     { Path: "/posts",    Slug: "posts",     Name: "სიახლეები" },
     { Path: "/branches", Slug: "location",  Name: "ლოკაციები" },
@@ -21,7 +22,7 @@ templ Page(component templ.Component) {
     @Layout() {
         <div class="w-[15%] h-[100vh] fixed top-0 left-0 float-left bg-primary p-10">
             <div class="w-full flex flex-col gap-10 ">
-                <h2 class="text-4xl text-white font-bold font-poppins tracking-widest">ალფაშოპი</h2>
+                <h2 class="text-3xl text-[#fecc00] font-bold font-poppins tracking-widest">AlfaShop</h2>
 
                 for _, Route := range Navs {
                     <p  class="w-half cursor-pointer text-white font-semibold font-nino"
@@ -29,7 +30,7 @@ templ Page(component templ.Component) {
                         hx-push-url={ "/admin" + Route.Path } 
                         hx-target="#AdminContent" 
                         hx-swap="innerHTML show:window:top"> 
-                        {Route.Name}
+                        { Route.Name }
                     </p>
                 }
 

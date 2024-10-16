@@ -1,0 +1,112 @@
+package widgets
+
+import "main/internal/icons"
+import "main/pkg/view/htmx"
+
+script script() {
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('cart',  () => ({
+            url: '/cart/refresh',
+            items: [],
+            open: false,
+            total: 0.00,
+            params: "js:{items: []}",
+            response: null,
+            init() {
+                (async () => {
+                    this.items = JSON.parse(localStorage.getItem('cart') || '[]')
+                    this.response = await globalThis.Ajax('GET', 
+                        `${this.url}?ids=${this.items.map(({ID}) => ID)?.join(',')}`
+                    )
+                    
+                    if(this.response) {
+                        this.items = this.response.map(item => ({
+                            ...item, Quantity: this.items.find(i => i.id === item.id)?.Quantity || 0
+                        }))
+                    }
+
+                    this.save()
+                })()
+            },
+            toggle() {
+                if(!this.open && this.items.length === 0) return
+                this.open = !this.open
+            },
+            add(item) {
+                let existing = this.items.find(i => i.id === item.id)
+                existing ? existing.Quantity++ : this.items.push({Quantity: 1, ...item})
+                this.save()
+            },
+            remove(id, full = false) {
+                this.items = this.items.filter(item => {
+                    if(item.ID !== id) return true
+                    else if(!full) {
+                        item.Quantity--
+                        return item.Quantity > 0
+                    }
+                })
+                this.save()
+            },
+            save() {
+                localStorage.setItem('cart', JSON.stringify(this.items || []))
+                this.total = this.items.reduce((sum, item) => sum + item.Price * (item.Quantity || 1), 0)
+                var params = this.items.map(item => {return {ID: item.ID, Quantity: item.Quantity}})
+                this.params = `js:{items: ${JSON.stringify(params)}}`
+                globalThis.cart = this
+            },
+        }))
+    })
+}
+
+templ Cart() {
+    @script()
+
+    <div x-data='cart' class="z-[66] fixed bottom-[185px] right-[50px]">
+        <div class="bg-primary p-2 px-1 w-16 flex items-center justify-center cursor-pointer rounded-full shadow-lg" @click='toggle()'>
+            <div x-show="open" class="flex items-center"> @icons.CloseRounded("#fecc00") </div>
+            <div x-show="!open" class="flex items-center"> @icons.Cart("#fecc00") </div>
+        </div>
+
+        <div x-show="open" class="w-[50vw] absolute bottom-[50px] right-[90px] h-[50vh] flex flex-col gap-2  w-200 p-5 rounded-lg bg-white shadow-2xl">
+            <!-- Cart Header -->
+            <div class="w-full flex items-center justify-between">
+                <p class="text-2xl font-bold font-arial">კალათა</p>
+
+                <div class="btn btn-sm bg-primary text-white font-bold"
+                     { htmx.PostLink("/cart", "")...} :hx-vals="params" hx-ext='json-enc'>
+                    <p class="font-arial">ყიდვა</p>
+                    <span class="text-lg font-medium" x-text="'₾' + total" />
+                </div>
+            </div>
+
+            <!-- Cart Items -->
+            <div class="w-full flex items-start no-scrollbar justify-between py-2 h-full overflow-y-scroll">
+                <template x-for="item in items" :key="item.ID">
+                    <div class="w-full flex items-center justify-between gap-5 rounded-box border border-gray-200 p-5">
+                        <div class="h-16 rounded-full p-4">
+                            <img :src='item.Pics[0].Path' class="w-full h-full object-cover" />
+                        </div>
+                        
+                        <p x-text='item.Name' class="text-lg flex items-center font-medium text-clip w-40 overflow-clip truncate" />
+                    
+                        <div class="flex gap-2 items-center justify-center">
+                            <button class="btn btn-sm bg-gray-200 font-bold text-black" @click='remove(item.ID)'> - </button>
+                            
+                            <p x-text="item.Quantity || 1" class="text-lg flex items-center" />
+
+                            <button class="btn btn-sm bg-gray-200 font-bold text-black" @click='add(item)'> + </button>
+                        </div>
+                        
+                        <p x-text='`₾${item.Price}`' class="text-lg font-semibold flex items-center" />
+
+                        <button class="btn btn-sm btn-error text-white font-bold rounded-full" @click='remove(item.ID, true)'>
+                                <p class="mt-[-3px]">x</p>
+                        </button>
+                    </div>
+                </template>
+            </div>
+            
+            <div x-show="items.length === 0" class="text-center text-gray-500">---</div>
+        </div>
+    </div>
+}

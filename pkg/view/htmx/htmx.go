@@ -23,3 +23,29 @@ func Link(path string) templ.Attributes {
 		// "hx-boost-ignore-swap-mode":   "replace",
 	}
 }
+func PostLink(path string, params string) templ.Attributes {
+	x := templ.Attributes{
+		"hx-post":      path,
+		"hx-swap":      "innerHTML show:window:top",
+		"hx-push-url":  "true",
+		"hx-target":    "#Content",
+		"hx-encoding":  "text/html",
+		"hx-indicator": ".Loading",
+		"hx-trigger":   "click",
+		// "hx-boost":                    "true",
+		// "hx-push":                     "true",
+		// "hx-boost-children":           "true",
+		// "hx-boost-ignore":             "true",
+		// "hx-boost-swap":               "true",
+		// "hx-boost-children-swap":      "true",
+		// "hx-boost-ignore-swap":        "true",
+		// "hx-boost-swap-mode":          "replace",
+		// "hx-boost-children-swap-mode": "replace",
+		// "hx-boost-ignore-swap-mode":   "replace",
+	}
+
+	if params != "" {
+		x["hx-params"] = params
+	}
+	return x
+}

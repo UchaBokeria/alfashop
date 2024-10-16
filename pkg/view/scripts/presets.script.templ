@@ -1,0 +1,25 @@
+package scripts
+
+script Presets() {
+    globalThis.Ajax = async function(method = 'GET', endpoint = '/example', options = {}) {
+        try {
+            const data = await new Promise((resolve, reject) => {
+                htmx.ajax(method, endpoint, {
+                    ...options, // Spread the options object into the AJAX call
+                    handler: function (elt, info) {
+                        if (info.xhr.status === 200) {
+                            resolve(JSON.parse(info.xhr.responseText));
+                        } else {
+                            reject(new Error(info.xhr.statusText));
+                        }
+                    },
+                })
+            })
+            return data
+        } catch (error) {
+            console.error('Error fetching JSON data:', error);
+        }
+    }
+}
+
+templ ___PRESET01__() {}

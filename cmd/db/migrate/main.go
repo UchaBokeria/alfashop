@@ -12,5 +12,5 @@ func main() {
 
 	migration.FilterEnums()
 
-	storage.DB.Debug().Migrator().AutoMigrate(migration.Models...)
+	storage.DB.Migrator().AutoMigrate(migration.Models...)
 }

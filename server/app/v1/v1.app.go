@@ -8,6 +8,7 @@ import (
 	"main/server/app/v1/controller/landing"
 	"main/server/app/v1/controller/posts"
 	"main/server/app/v1/controller/products"
+	"main/server/app/v1/controller/widgets/cart"
 	"main/server/app/v1/controller/widgets/chat"
 	"main/server/app/v1/middleware"
 )
@@ -18,6 +19,7 @@ func Run(app *echo.Group) {
 	// app.Use(middleware.Upload())
 
 	/* Widgets */
+	cart.Register(app)
 	chat.Register(app)
 
 	/* Pages */

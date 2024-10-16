@@ -1,5 +1,7 @@
 package view
 
+import "main/pkg/view/scripts"
+
 import(
 	"main/pkg/globals"
 )
@@ -80,8 +82,8 @@ templ Preprocessor() {
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-    <script src="https://unpkg.com/htmx.org@latest"></script>
-    <script src="https://unpkg.com/htmx.org@latest/dist/ext/json-enc.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.5/dist/ext/json-enc.js"></script>
 
     <script src="https://unpkg.com/htmx-ext-alpine-morph@2.0.0/alpine-morph.js"></script>
     <!-- Alpine Plugins -->
@@ -95,10 +97,13 @@ templ Preprocessor() {
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="/assets/scripts/reload.js"></script>
-        <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/debug.js"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.5/dist/ext/debug.js"></script>
         <link href="/assets/styles/style.css" rel="stylesheet" />
     } else {
         <script src="/assets/scripts/tailwind.min.js"></script>
         <link href="/assets/styles/style.min.css" rel="stylesheet" />
     }
+
+    
+    @scripts.Presets()
 }

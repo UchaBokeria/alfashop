@@ -64,6 +64,7 @@ func Connect(config *DBConfig) {
 				Colorful:                  true,          // Disable color
 			},
 		),
+		FullSaveAssociations: true,
 	})
 
 	if err != nil {

@@ -1,0 +1,73 @@
+package categories
+
+
+import "main/internal/icons"
+import "main/pkg/helpers"
+import "main/internal/model"
+
+templ TreeCollapse(Categorie *model.Categories) {
+    <details class="w-full m-2">
+        <summary class="w-full p-4 flex items-center justify-start gap-5 rounded-box bg-slate-100"
+                 @click="$el.classList.toggle('bg-slate-200');">
+            // Category icon upload & display
+            <button class="avatar cursor-pointer">
+                <input type="file" name="Icon" id="category-icon" class="hidden">
+                <div class="w-14 rounded-full relative">
+                    <div class="bg-primary"> @icons.Upload("category-icon") </div>
+
+                    if Categorie.IconID != nil {
+                        <img    class="object-fit bg-white rounded-full absolute top-0 hover:opacity-0 transition-opacity"
+                                src={Categorie.Icon.Path}
+                                alt={Categorie.Name} 
+                                for="category-icon" />
+                    }
+                </div>
+            </button>
+
+            // Category name
+            <p class="h-full w-32 text-lg font-semibold overflow-hidden text-ellipsis flex items-center"> {Categorie.Name} </p>
+
+            // Category actions
+            <div class="w-full rounded-box  mx-2 flex flex-wrap justify-start gap-2">
+                <button class="flex justify-between items-center gap-2 bg-cyan-600 transition-colors hover:bg-cyan-700 cursor-pointer text-sm text-white p-2 rounded-box"
+                        hx-get={"/admin/categories/update/" + helpers.Ustring(Categorie.ID)} 
+                        hx-target="#category-outlet">
+                    @icons.Update()
+                    შეცვლა
+                </button>
+                
+                <button class="flex justify-between items-center gap-2 bg-purple-600 transition-colors hover:bg-purple-700 cursor-pointer text-sm text-white p-2 rounded-box"
+                        hx-put={"/admin/categories/" + helpers.Bstring(!Categorie.Public) + "/" + helpers.Ustring(Categorie.ID)} 
+                        hx-target="#AdminContent">
+                    if Categorie.Public {
+                        @icons.ClosedEyeIcon() დამალვა
+                    } else {
+                        @icons.EyeIcon() გამოჩენა
+                    }
+                </button>
+                
+                <button class="flex justify-between items-center gap-2 bg-red-600 transition-colors hover:bg-red-700 cursor-pointer text-sm text-white p-2 rounded-box"
+                        @click={"confirmDelete = " + helpers.Ustring(Categorie.ID)}>
+                    @icons.DeleteIconColor("fff")
+                    წაშლა
+                </button>
+            </div>
+
+            <div class="w-16 rounded-box cursor-pointer">
+                @icons.DownToggleArrow()
+            </div>
+        </summary>
+
+        <div class="w-full p-4">
+            <button class="w-full rounded-box bg-slate-100 p-4 m-2 pl-10 hover:bg-[#21569e] hover:text-white transition-colors"
+                    hx-target="#category-outlet"
+                    hx-get={"/admin/categories/create/" + helpers.Ustring(Categorie.ID)}>
+                + დამატება
+            </button>
+            
+            for _, child := range Categorie.Children {
+                @TreeCollapse(child)
+            }
+        </div>
+    </details>
+}

@@ -22,8 +22,8 @@ func Auth() echo.MiddlewareFunc {
 			var Parameters AuthHeaderCreds
 
 			ctx.Set("ISADMIN", false)
-			err := (&echo.DefaultBinder{}).BindHeaders(ctx, &Parameters);
-			if err != nil || Parameters.Email == "" || Parameters.Token == ""{
+			err := (&echo.DefaultBinder{}).BindHeaders(ctx, &Parameters)
+			if err != nil || Parameters.Email == "" || Parameters.Token == "" {
 				Parameters.Email = ctx.ReadCookie("user").Value
 				Parameters.Token = ctx.ReadCookie("token").Value
 			}
@@ -33,7 +33,7 @@ func Auth() echo.MiddlewareFunc {
 			}
 
 			result := storage.DB.Where(&model.Users{Email: Parameters.Email, Token: Parameters.Token}).Last(&User)
-			if result.Error != nil || result.RowsAffected < 1 { 
+			if result.Error != nil || result.RowsAffected < 1 {
 				return ctx.Renders(http.StatusUnauthorized, admin.Login())
 			}
 

@@ -1,0 +1,48 @@
+package categories
+
+import "main/internal/model"
+
+templ Page(Categories []model.Categories) {
+    <h1 class="w-full text-3xl font-semibold font-nino">კატეგორიები</h1>
+
+    <div class="w-full flex gap-5" x-data='{confirmDelete: null}'>
+        // Category tree first level layout
+        <div class="w-1/2 py-2 -mx-2">
+            <button class="w-full rounded-box bg-slate-100 p-4 mx-2 hover:bg-[#21569e] hover:text-white transition-colors"
+                    hx-get="/admin/categories/create/0" hx-target="#category-outlet">
+                + დამატება
+            </button>
+            
+            for _, Category := range Categories {
+                @TreeCollapse(&Category)
+            }
+        </div>
+
+        // Shows selected category details
+        <div class="w-1/2 p-2 min-h-50">
+            <div class="h-full bg-slate-100 rounded-box" id="category-outlet"></div>
+        </div>
+
+        // Delete confirmation dialog modal
+        <div class="fixed top-0 left-0 p-0 w-[100%] h-full flex justify-center items-center" x-show="confirmDelete">
+            <input type="text" name="confirmDelete" :value="confirmDelete" class="hidden" />
+            <div class="w-[100%] h-full absolute top-0 left-0 bg-black opacity-60 z-0" />
+
+            <div class="absolute top-[20vh] p-10 rounded-box bg-white z-1 flex flex-col gap-5">
+                <p class="w-full text-xl font-semibold text-black">დაადასტურეთ რო გსურთ წაშლა!</p>
+
+                <button class="w-full rounded-box bg-red-600 p-4 mx-2 hover:bg-red-700 text-white transition-colors"
+                        hx-target="#AdminContent"
+                        hx-include='[name="confirmDelete"]' hx-ext='path-params'
+                        x-bind:hx-delete='`/admin/categories/{{confirmDelete}}`'>
+                        დასტური
+                </button>
+
+                <button class="w-full p-4 mx-2 bg-slate-100 rounded-box hover:bg-slate-200 transition-colors"
+                        @click="confirmDelete = null">
+                        გაუქმება
+                </button>
+            </div>
+        </div>
+    </div>
+}

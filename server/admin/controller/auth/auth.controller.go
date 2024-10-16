@@ -12,7 +12,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-
 func login(ctx *controller.Context, Parameters *LoginDto) error {
 	var UserMatch model.Users
 
@@ -20,29 +19,29 @@ func login(ctx *controller.Context, Parameters *LoginDto) error {
 		return ctx.Renders(http.StatusBadRequest, view.Login())
 	}
 
-	if  Result := storage.DB.Last(&UserMatch, &model.Users{ Email: Parameters.Email })
-		Result.Error != nil || Result.RowsAffected < 1 {
+	if Result := storage.DB.Last(&UserMatch, &model.Users{Email: Parameters.Email}); Result.Error != nil || Result.RowsAffected < 1 {
 		return ctx.Renders(http.StatusNotFound, view.Login())
 	}
 
-
 	err := bcrypt.CompareHashAndPassword([]byte(UserMatch.Password), []byte(Parameters.Password))
-    if err != nil { return ctx.Renders(http.StatusUnauthorized, view.Login()) }
+	if err != nil {
+		return ctx.Renders(http.StatusUnauthorized, view.Login())
+	}
 
 	Expires := time.Now().Add(24 * time.Hour)
 
 	AuthHtmxMeta, _ := json.Marshal(struct {
-		Expires   time.Time    	`json:"Expires"`
-        Email     string    	`json:"Email"`
-        Token     string    	`json:"Token"`
+		Expires time.Time `json:"Expires"`
+		Email   string    `json:"Email"`
+		Token   string    `json:"Token"`
 	}{
-		Expires: Expires, 
-		Email: UserMatch.Email, 
-		Token: UserMatch.Token,
-	})      
+		Expires: Expires,
+		Email:   UserMatch.Email,
+		Token:   UserMatch.Token,
+	})
 
-	ctx.WriteCookie(controller.Cookie{ Key: "user", Value: UserMatch.Email, Expires: Expires })
-	ctx.WriteCookie(controller.Cookie{ Key: "token", Value: UserMatch.Token, Expires: Expires })
+	ctx.WriteCookie(controller.Cookie{Key: "user", Value: UserMatch.Email, Expires: Expires})
+	ctx.WriteCookie(controller.Cookie{Key: "token", Value: UserMatch.Token, Expires: Expires})
 	ctx.Response().Header().Add("HX-AUTH-META", string(AuthHtmxMeta))
 
 	return ctx.Html(view.Login())
@@ -54,9 +53,13 @@ func ChangePassword(ctx *controller.Context, Parameters *LoginDto) error {
 	}
 
 	Hash, err := bcrypt.GenerateFromPassword([]byte(Parameters.Password), 12)
-	if err != nil { return ctx.String(http.StatusBadRequest, "bycrypt!!") }
+	if err != nil {
+		return ctx.String(http.StatusBadRequest, "bycrypt!!")
+	}
 
-	Result := storage.DB.Table("users").Where(&model.Users{ Email: Parameters.Email }).Update("password", string(Hash))
-	if Result.Error != nil || Result.RowsAffected < 1 { return ctx.String(http.StatusBadRequest, "No rows affected") }
+	Result := storage.DB.Table("users").Where(&model.Users{Email: Parameters.Email}).Update("password", string(Hash))
+	if Result.Error != nil || Result.RowsAffected < 1 {
+		return ctx.String(http.StatusBadRequest, "No rows affected")
+	}
 	return ctx.String(http.StatusOK, "success")
 }

@@ -7,10 +7,10 @@ import (
 
 func FindByID[T any](id int) *T {
 	modeler := new(T)
-    if err := storage.DB.Where("id = ?", id).Last(modeler).Error; err != nil {
-        // return err
+	if err := storage.DB.Where("id = ?", id).Last(modeler).Error; err != nil {
+		// return err
 		fmt.Print("some error of ", err.Error())
-    }
+	}
 	return modeler
 }
 
