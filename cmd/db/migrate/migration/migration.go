@@ -39,4 +39,11 @@ var Models = []interface{}{
 	&model.Social_media{},
 	&model.Languages{},
 	&model.LanguageDictionary{},
+
+	&model.Orders{},
+	&model.Order_status{},
+
+	&model.Payments{},
+	&model.PaymentStatus{},
+	&model.PaymentBranches{},
 }

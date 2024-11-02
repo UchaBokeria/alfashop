@@ -20,6 +20,11 @@ script Presets() {
             console.error('Error fetching JSON data:', error);
         }
     }
+
+    globalThis.GetCookie = function(name) {
+        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); 
+        return match ? match[1] : null;
+    } 
 }
 
 templ ___PRESET01__() {}

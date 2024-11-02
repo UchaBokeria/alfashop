@@ -8,6 +8,6 @@ import (
 
 func Register(app *echo.Group) {
 	Cart := app.Group("/cart")
-	Cart.POST("", controller.Set[CheckoutDto](checkout))
 	Cart.GET("/refresh", controller.Set[CartDto](refresh))
+	Cart.POST("", controller.Set[CheckoutDto](checkout))
 }

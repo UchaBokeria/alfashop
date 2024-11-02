@@ -21,7 +21,7 @@ templ ProductList(Page string, Searcher string, CategoryID string, Products []mo
             <div class="w-full font-arial h-[90px] overflow-hidden line-clamp-3 text-gray-600"> @templ.Raw(html.UnescapeString(Product.DescriptionHtml)) </div>
 
             <div class="cursor-pointer w-full flex justify-end absolute bottom-14 right-5 z-111"
-                 x-data @click={"globalThis.cart.add(" + alpine.New(Product) + ")"}> 
+                 x-data @click={"globalThis.cart.add(" + alpine.New(Product) + "); globalThis.Toast('პროდუქტი წარმატებით დამატებულია')"}> 
                 @icons.CartAdd("#000")
             </div>
 

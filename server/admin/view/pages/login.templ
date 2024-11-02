@@ -15,7 +15,7 @@ templ Login() {
             <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
                 <h1 class="text-2xl mb-4 font-nino font-bold">კაბინეტი</h1>
 
-                <form   hx-post="/auth/login/"
+                <form   hx-post="/adminauth/login/"
                         hx-target="#Login"
                         hx-swap="outerHTML"
                         hx-trigger="submit"
@@ -41,6 +41,6 @@ templ Login() {
             </div>
         </div>
 
-        @scripts.Auth("/auth/login")
+        @scripts.Auth("/adminauth/login")
     }
 }

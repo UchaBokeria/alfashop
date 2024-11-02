@@ -106,4 +106,18 @@ templ Preprocessor() {
 
     
     @scripts.Presets()
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('Global',  {
+                LoggedIn: () => globalThis.GetCookie('user') != null && globalThis.GetCookie('token') != null,
+                Logout() {
+                    console.log("logout")
+                    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    window.location.href = '/'
+                }
+            })
+        })
+    </script>
 }

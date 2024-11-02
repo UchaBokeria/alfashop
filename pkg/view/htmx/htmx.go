@@ -31,7 +31,6 @@ func PostLink(path string, params string) templ.Attributes {
 		"hx-target":    "#Content",
 		"hx-encoding":  "text/html",
 		"hx-indicator": ".Loading",
-		"hx-trigger":   "click",
 		// "hx-boost":                    "true",
 		// "hx-push":                     "true",
 		// "hx-boost-children":           "true",

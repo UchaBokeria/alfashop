@@ -48,14 +48,20 @@ templ Header(Interface model.Interface) {
 				@LanguageSwitchBottom(Interface.Languages)
 			</div>
 
-			<div class="hidden mob:flex bg-white p-4 cursor-pointer rounded-box transition-colors items-center justify-start gap-2 flex-grow-0 flex-shrink-0"
-				for="menu" {htmx.Link("/login")...}>
-				@icons.Person()
-				
-				<p class="font-arial font-semibold space-x-1 text-sm text-primary transition-2s whitespace-nowrap">
-					ავტორიზაცია
-				</p>
-			</div>
+			<template x-if='!$store.Global.LoggedIn()' for="menu" >
+				<div {htmx.Link("/auth/login")...} class="hidden mob:flex bg-white p-4 cursor-pointer rounded-box transition-colors items-center justify-start gap-2 flex-grow-0 flex-shrink-0">
+					@icons.Person()
+					<p class="font-arial font-semibold space-x-1 text-sm text-primary transition-2s whitespace-nowrap">
+						ავტორიზაცია
+					</p>
+				</div>
+			</template>
+
+			<template x-if='$store.Global.LoggedIn()' for="menu">
+				<div class="hidden mob:flex">
+					asd
+				</div>
+			</template>
 
 			<div class="hidden mob:flex animated bounceInRight cursor-pointer rounded-box p-4 bg-secondary transition-colors items-center justify-between gap-2 flex-grow-0 flex-shrink-0"
 				@click="CopyToClipboard(Phone) && Toast('დაკოპირებულია')">
@@ -64,14 +70,42 @@ templ Header(Interface model.Interface) {
 			</div>
 		</div>
 
-        <div class="mob:hidden animated bounceInRight cursor-pointer rounded-box p-4 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-between gap-2 flex-grow-0 flex-shrink-0"
-			{htmx.Link("/login")...}>
-		    @icons.Person()
-			
-			<p class="font-arial font-semibold space-x-1 text-sm text-primary mob:hidden animated fadeIn transition-2s whitespace-nowrap">
-				ავტორიზაცია
-			</p>
-        </div>
+        <template x-if='!$store.Global.LoggedIn()'>
+			<div {htmx.Link("/auth/login")...} class="mob:hidden animated bounceInRight cursor-pointer rounded-box p-4 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-between gap-2 flex-grow-0 flex-shrink-0">
+				@icons.Person()
+				
+				<p class="font-arial font-semibold space-x-1 text-sm text-primary mob:hidden animated fadeIn transition-2s whitespace-nowrap">
+					ავტორიზაცია
+				</p>
+			</div>
+		</template>
+
+		<template x-if='$store.Global.LoggedIn()'>
+			<div class="mob:hidden dropdown dropdown-hover dropdown-end dropdown-bottom bg-primary rounded-full text-white avatar cursor-pointer transition-colors flex items-center justify-between gap-2 flex-grow-0 flex-shrink-0">
+				<div tabindex="0" role="button" class=" p-3">@icons.PersonColored("fff")</div>
+				<div  tabindex="0" class="dropdown-content mt-1 menu relative bg-primary text-white rounded-box h-[20vh] ">
+					<p {htmx.Link("/auth/logout")...} 
+						class="cursor-pointer font-arial  p-2  font-semibold space-x-1 text-sm text-white transition-2s whitespace-nowrap">
+						პროფილი
+					</p>
+
+					<p {htmx.Link("/auth/logout")...} 
+						class="cursor-pointer font-arial  p-2  font-semibold space-x-1 text-sm text-white transition-2s whitespace-nowrap">
+						ორდერები
+					</p>
+
+					<p {htmx.Link("/auth/logout")...} 
+						class="cursor-pointer font-arial  p-2  font-semibold space-x-1 text-sm text-white transition-2s whitespace-nowrap">
+						ისტორია
+					</p>
+
+					<a href="/auth/logout" 
+						class="cursor-pointer font-arial  p-2  font-semibold space-x-1 text-sm text-white transition-2s whitespace-nowrap">
+						გამოსვლა
+					</a>
+				</div>
+			</div>
+		</template>
 
         <div class="mob:hidden animated bounceInRight flex w-20 rounded-box items-center justify-center">
 		    @LanguageSwitchBottom(Interface.Languages)

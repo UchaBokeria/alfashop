@@ -1,5 +1,7 @@
 package view
 
+import "main/pkg/view/scripts"
+
 templ Index() {
     <!DOCTYPE html>
     <html lang="ka" data-theme="light">
@@ -8,6 +10,7 @@ templ Index() {
             @Preprocessor()
         </head>
         <body class="overflow-x-hidden">
+            @scripts.Auth("/auth/login")
             { children... }
         </body>
     </html>

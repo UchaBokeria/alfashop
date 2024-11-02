@@ -5,7 +5,8 @@ type CartDto struct {
 }
 
 type CheckoutDto struct {
-	Items []struct {
+	Comment string `json:"comment"`
+	Items   []struct {
 		ID       int
 		Quantity int
 	} `json:"items"`

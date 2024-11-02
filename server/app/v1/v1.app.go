@@ -3,6 +3,7 @@ package v1
 import (
 	"github.com/labstack/echo/v4"
 
+	"main/server/app/v1/controller/auth"
 	"main/server/app/v1/controller/branches"
 	"main/server/app/v1/controller/company"
 	"main/server/app/v1/controller/landing"
@@ -23,6 +24,7 @@ func Run(app *echo.Group) {
 	chat.Register(app)
 
 	/* Pages */
+	auth.Register(app)
 	landing.Register(app)
 	products.Register(app)
 	branches.Register(app)

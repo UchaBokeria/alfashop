@@ -1,0 +1,21 @@
+package view
+
+import "main/pkg/view/htmx"
+import "main/internal/model"
+import "main/pkg/helpers"
+
+templ Successful(Order model.Orders) {
+    <div class="w-full">
+        <h4 class="alert-heading">x</h4>
+        <p>შეკვეთა მიღებულია, მალე დაგიკავშირდებით</p>
+
+        <button class="btn text-white btn-primary"
+                { htmx.PostLink("/order/invoice/" + helpers.Ustring(Order.ID), "")...}>
+                ინვოისი
+        </button>
+
+        <button class="btn text-white bg-green-500" { htmx.Link("/")...}>
+            მთავარ გვერდზე დაბრუნება
+        </button>
+    </div>
+}

@@ -6,7 +6,25 @@ import (
 	"main/server/admin/view/shared"
 	"reflect"
 	"strconv"
+
+	"golang.org/x/exp/rand"
 )
+
+func ToPointer[T any](data T) *T {
+	return &data
+}
+
+const LetterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const NumberBytes = "0123456789"
+
+func GenerateToken(n int) string {
+	AllBytes := LetterBytes + NumberBytes
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = AllBytes[rand.Int63()%int64(len(AllBytes))]
+	}
+	return string(b)
+}
 
 func PtintToString(num *int) string {
 	return strconv.Itoa(*num)

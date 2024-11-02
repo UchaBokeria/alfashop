@@ -13,7 +13,7 @@ import (
 	view "main/server/app/v1/view/pages/landing"
 )
 
-func index(ctx *controller.Context) error {
+func Index(ctx *controller.Context) error {
 	var Interface model.Interface
 
 	storage.DB.
@@ -36,9 +36,9 @@ func index(ctx *controller.Context) error {
 
 func subscribe(ctx *controller.Context) error {
 	Result, _ := mailer.Send(mailer.Config{
-		To: "ucha2bokeria@gmail.com",
+		To:      "ucha2bokeria@gmail.com",
 		Subject: "New Subsribe",
-		Body: "მადლობა გამოწერისთვის, იხილეთ სიახლეები ჩვენს ვებ გვერდზე და მიიღეთ ექსკლუზიური სიახლეები ელ ფოსტის საშუალებით",
+		Body:    "მადლობა გამოწერისთვის, იხილეთ სიახლეები ჩვენს ვებ გვერდზე და მიიღეთ ექსკლუზიური სიახლეები ელ ფოსტის საშუალებით",
 	})
 
 	if Result {

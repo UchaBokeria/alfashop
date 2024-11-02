@@ -8,6 +8,8 @@ import (
 	"main/cmd/db/seed/faq"
 	"main/cmd/db/seed/files"
 	"main/cmd/db/seed/interfaces"
+	"main/cmd/db/seed/orders"
+	"main/cmd/db/seed/payments"
 	"main/cmd/db/seed/posts"
 	"main/cmd/db/seed/products"
 	"main/cmd/db/seed/users"
@@ -20,6 +22,7 @@ func main() {
 	storage.Connect(storage.Default())
 
 	company.Populate()
+	branches.Cities()
 	users.Populate()
 
 	files.Types()
@@ -28,7 +31,6 @@ func main() {
 	posts.Types()
 	posts.Populate()
 
-	branches.Cities()
 	branches.Populate()
 	branches.Shifts()
 
@@ -47,4 +49,7 @@ func main() {
 	interfaces.Contact()
 	interfaces.About()
 	interfaces.Language()
+
+	orders.Populate()
+	payments.Populate()
 }

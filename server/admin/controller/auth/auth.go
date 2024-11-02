@@ -7,7 +7,7 @@ import (
 )
 
 func Register(echo *echo.Echo) {
-	auth := echo.Group("/auth")
+	auth := echo.Group("/adminauth")
 	auth.GET("/login", controller.Set[LoginDto](login))
 	auth.POST("/login", controller.Set[LoginDto](login))
 	// auth.POST("/register", controller.Set[any](register))

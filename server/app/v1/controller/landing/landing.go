@@ -7,6 +7,6 @@ import (
 )
 
 func Register(app *echo.Group) {
-	app.GET("/", controller.Set[any](index))
+	app.GET("/", controller.Set[any](Index))
 	app.POST("/subscribe", controller.Set[any](subscribe))
 }

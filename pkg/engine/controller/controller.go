@@ -214,6 +214,11 @@ func (ctx *Context) IsAdmin() bool {
 }
 
 func (ctx *Context) User() model.Users {
+	tmp := ctx.Get("USER")
+
+	if tmp == nil {
+		return model.Users{}
+	}
 	return ctx.Get("USER").(model.Users)
 }
 
@@ -239,6 +244,14 @@ type Cookie struct {
 	Key     string
 	Value   string
 	Expires time.Time
+}
+
+func (ctx *Context) RemoveCookie(Key string) {
+	cookie := new(http.Cookie)
+	cookie.Name = Key
+	cookie.MaxAge = -1
+	cookie.Expires = time.Unix(0, 0)
+	ctx.SetCookie(cookie)
 }
 
 func (ctx *Context) WriteCookie(data Cookie) {
