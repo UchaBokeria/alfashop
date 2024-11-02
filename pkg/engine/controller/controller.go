@@ -17,6 +17,7 @@ package controller
 import (
 	"net/http"
 	"reflect"
+	"regexp"
 	"strconv"
 	"time"
 
@@ -123,8 +124,37 @@ func Set[T any](handlerFunc interface{}) echo.HandlerFunc {
 	}
 }
 
+func strongpwd(fl validator.FieldLevel) bool {
+	fieldValue := fl.Field().String()
+	secure := true
+	tests := []string{".{8,}", "[a-z]", "[A-Z]", "[0-9]", "[^\\d\\w]"}
+	for _, test := range tests {
+		t, _ := regexp.MatchString(test, fieldValue)
+		if !t {
+			secure = false
+			break
+		}
+	}
+	return secure
+}
+
+// Validate checks the validity of a given DTO struct using custom validation rules.
+// It registers a custom regex validator and applies it to the struct fields
+// based on the specified validation tags.
+//
+// Parameters:
+//   - DTOstruct: The data transfer object (DTO) structure to be validated.
+//
+// Returns:
+//   - An error if the validation fails, or nil if the validation passes.
+//
+// Notes:
+//   - The function utilizes a custom regex validator registered with the tag "reg".
+//   - Ensure that the DTOstruct has appropriate validation tags for effective validation.
+//   - In the event of validation errors, detailed information is available for custom error handling.
 func Validate(DTOstruct interface{}) error {
 	var validate *validator.Validate = validator.New(validator.WithRequiredStructEnabled())
+	validate.RegisterValidation("strongpwd", strongpwd)
 	err := validate.Struct(DTOstruct)
 	if err != nil {
 		// this check is only needed when your code could produce

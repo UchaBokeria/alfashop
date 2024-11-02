@@ -106,7 +106,7 @@ func Signup(ctx *controller.Context, Parameters *SignupDto) error {
 	return ctx.Html(view.VerifyEmail())
 }
 
-func VerifyEmail(ctx *controller.Context, Parameters *VerifyEmailDto) error {
+func VerifyEmail(ctx *controller.Context, Parameters *VerifyEmailTokenDto) error {
 	if _, welcome := mailer.Send(mailer.Config{
 		To:      Parameters.Email,
 		Subject: "Alfashop",
@@ -141,16 +141,17 @@ func ForgotPassword(ctx *controller.Context, Parameters *ForgotPasswordDto) erro
 		return ctx.String(http.StatusNotFound, "user not found")
 	}
 
-	user.ResetToken = helpers.ToPointer(helpers.GenerateToken(155))
+	Token := helpers.GenerateToken(155)
+	user.ResetToken = helpers.ToPointer(Token)
 	user.ResetTokenExpiresAt = time.Now().Add(30 * time.Minute)
-	if err := res.Save(&user); err != nil {
-		return ctx.String(http.StatusInternalServerError, "database error -> "+err.Error.Error())
+	if res := storage.DB.Save(&user); res.Error != nil {
+		return ctx.String(http.StatusInternalServerError, "database error -> "+res.Error.Error())
 	}
 
 	if _, forgotEmail := mailer.Send(mailer.Config{
 		To:      Parameters.Email,
 		Subject: "Alfashop",
-		Body:    "მომხმარებელი გაიარეთ ანგარიშის შესრულება მისამართით: https://alface.app/auth/verify/password/" + Parameters.Email + "/" + *user.ResetToken,
+		Body:    "მომხმარებელი გაიარეთ ანგარიშის შესრულება მისამართით: https://alface.app/auth/verify/password/" + Parameters.Email + "/" + Token,
 	}); forgotEmail != nil {
 		return ctx.String(http.StatusInternalServerError, "mailer error")
 	}
@@ -158,7 +159,7 @@ func ForgotPassword(ctx *controller.Context, Parameters *ForgotPasswordDto) erro
 	return ctx.Html(view.ForgotPasswordSuccess())
 }
 
-func VerifyForgot(ctx *controller.Context, Parameters *VerifyEmailDto) error {
+func VerifyPassword(ctx *controller.Context, Parameters *VerifyEmailTokenDto) error {
 	if Parameters.Email == "" || Parameters.Token == "" {
 		return ctx.String(http.StatusBadRequest, "parameters are not provided :: Email || Token")
 	}
@@ -202,8 +203,8 @@ func ChangePassword(ctx *controller.Context, Parameters *ChangePasswordDto) erro
 	}
 
 	user.Password = string(Hash)
-	if err := res.Save(&user); err != nil {
-		return ctx.String(http.StatusInternalServerError, "database error -> "+err.Error.Error())
+	if res := storage.DB.Save(&user); res.Error != nil {
+		return ctx.String(http.StatusInternalServerError, "database error -> "+res.Error.Error())
 	}
 
 	return ctx.Redirect(http.StatusMovedPermanently, "/auth/login")

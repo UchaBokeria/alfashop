@@ -1,14 +1,14 @@
 package auth
 
 type LoginDto struct {
-	Email    string `form:"email" validate:"required,email"`
-	Password string `form:"password" validate:"required"`
+	Email    string `form:"email"`
+	Password string `form:"password"`
 }
 
 type SignupDto struct {
 	Fullname string `form:"Fullname" `
 	Email    string `form:"Email" validate:"email"`
-	Password string `form:"Password" `
+	Password string `form:"Password" validate:"strongpwd"`
 	Phone    string `form:"Phone" `
 	Company  string `form:"Company" `
 	// CityID   int    `form:"City" `
@@ -22,15 +22,15 @@ type ChangePasswordDto struct {
 }
 
 type ForgotPasswordDto struct {
-	Email string `json:"email" validate:"required,email"`
+	Email string `form:"email"`
 }
 
 type ResetPasswordDto struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Email    string `form:"email"`
+	Password string `form:"password"`
 }
 
-type VerifyEmailDto struct {
+type VerifyEmailTokenDto struct {
 	Email string `param:"Email"`
 	Token string `param:"Token"`
 }
